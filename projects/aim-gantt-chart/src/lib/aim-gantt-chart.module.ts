@@ -1,10 +1,14 @@
 import {NgModule} from '@angular/core';
-import {AimGanttChartComponent} from './component/aim-gantt-chart.component';
+import {GanttChartComponent} from './component/gantt-chart/gantt-chart.component';
+import {GanttBusiness} from './core/ganttBusiness';
+import {GridMaker} from './core/gridMaker';
+import {Draw} from './core/draw';
 
 @NgModule({
-  declarations: [AimGanttChartComponent],
+  declarations: [GanttChartComponent],
   imports: [],
-  exports: [AimGanttChartComponent]
+  exports: [GanttChartComponent],
+  providers: [GanttBusiness, GridMaker, Draw]
 })
 export class AimGanttChartModule {
 }
