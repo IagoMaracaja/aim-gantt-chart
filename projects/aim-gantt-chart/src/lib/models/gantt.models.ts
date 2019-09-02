@@ -1,4 +1,4 @@
-export class Gantt {
+export interface Gantt {
   start?: Date;
   end?: Date;
 }

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {createSVG} from '../../utils/svg-utils';
-import {Language, Options, ViewMode} from '../../utils/enums';
+import {Language, Options, Scale, ViewMode} from '../../utils/enums';
 import {addDate, diffBetweenDates, getDateValues, getToday, parseDate} from '../../utils/date-utils';
 import {generateId} from '../../utils/commom-code';
 import {GanttOptions} from '../../models/ganttOptions.models';
@@ -141,36 +141,36 @@ export class GanttChartComponent implements OnInit {
     // prepare tasks
     this.chartOptions.tasks = allTasks.map((task, i) => {
       // convert to Date objects
-      task._start = parseDate(task.start);
-      task._end = parseDate(task.end);
+      task.start = parseDate(task.start);
+      task.end = parseDate(task.end);
 
       // make task invalid if duration too large
-      if (diffBetweenDates(task._end, task._start, 'year') > 10) {
+      if (diffBetweenDates(task.end, task.start, Scale.Year) > 10) {
         task.end = null;
       }
 
       // cache index
-      task._index = i;
+      task.index = i;
 
       // invalid dates
       if (!task.start && !task.end) {
         const todayVar = getToday();
-        task._start = todayVar;
-        task._end = addDate(todayVar, 2, 'day');
+        task.start = todayVar;
+        task.end = addDate(todayVar, 2, Scale.Day);
       }
 
       if (!task.start && task.end) {
-        task._start = addDate(task._end, -2, 'day');
+        task.start = addDate(task.end, -2, Scale.Day);
       }
 
       if (task.start && !task.end) {
-        task._end = addDate(task._start, 2, 'day');
+        task.end = addDate(task.start, 2, Scale.Day);
       }
       // if hours is not set, assume the last day is full day
       // e.g: 2018-09-09 becomes 2018-09-09 23:59:59
-      const taskEndValues = getDateValues(task._end);
+      const taskEndValues = getDateValues(task.end);
       if (taskEndValues.slice(3).every(d => d === 0)) {
-        task._end = addDate(task._end, 24, 'hour');
+        task.end = addDate(task.end, 24, Scale.Hour);
       }
       // invalid flag
       if (!task.start || !task.end) {
@@ -203,7 +203,7 @@ export class GanttChartComponent implements OnInit {
     }
     this.updateViewScale(mode);
     this.setupDates();
-    this.ganttBusiness.render(this.svg, this.options, this.chartOptions);
+    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt);
   }
 
   updateViewScale(viewMode) {
@@ -231,7 +231,7 @@ export class GanttChartComponent implements OnInit {
   }
 
   setupDates() {
-    this.chartOptions.calendar = GanttBusiness.setupDateValues(this.gantt, this.options);
     this.gantt = GanttBusiness.setupGanttDates(this.gantt, this.tasks, this.options);
+    this.chartOptions.calendar = GanttBusiness.setupDateValues(this.gantt, this.options);
   }
 }

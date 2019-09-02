@@ -23,8 +23,6 @@ export class GridMaker {
     this.options = options;
     this.chartOptions = chartOptions;
 
-    console.log('chartOptions ', chartOptions);
-
     this.makeGridBackground();
     this.makeGridRows();
     this.makeGridHeader();

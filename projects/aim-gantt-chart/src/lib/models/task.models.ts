@@ -7,4 +7,6 @@ export interface TaskModel {
   level: number;
   overdue: boolean;
   taskList: TaskModel[];
+  index: number;
+  invalid: boolean;
 }

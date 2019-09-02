@@ -26,6 +26,7 @@
       "aim-gantt-chart/*": [
         "dist/aim-gantt-chart/*"
       ]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   }
 }

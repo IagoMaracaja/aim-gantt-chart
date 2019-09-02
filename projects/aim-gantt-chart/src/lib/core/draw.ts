@@ -1,8 +1,14 @@
-import {createSVG} from '../utils/svg-utils';
+import {attr, createSVG} from '../utils/svg-utils';
 import {ChartOptions} from '../models/chartOptions.models';
-import {getDatesToDraw} from '../utils/date-utils';
+import {diffBetweenDates, getDatesToDraw, getOldestStartingDate, getToday} from '../utils/date-utils';
 import {GanttOptions} from '../models/ganttOptions.models';
 import {Injectable} from '@angular/core';
+// @ts-ignore
+import {Bar} from './bar';
+import {Gantt} from '../models/gantt.models';
+import {Scale, ViewMode} from '../utils/enums';
+import {Filter} from './filter';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -21,7 +27,7 @@ export class Draw {
     return levelOne;
   }
 
-  static changeSvgHeight(options: GanttOptions, chartOptions: ChartOptions) {
+  static changeSvgHeight(options: GanttOptions, chartOptions: ChartOptions, svg: SVGElement) {
     if (options.projectOverview) {
       let newSVGHeight = options.headerHeight;
       let headerHeight = 0;
@@ -31,14 +37,13 @@ export class Draw {
           tsk.taskList.length;
         newSVGHeight += headerHeight;
       }
-      // todo Uncomment this line 
-      /*$.attr(this.$svg, {
+      attr(svg, {
         height: newSVGHeight
-      });*/
+      });
     }
   }
 
-  static makeTaskHeader(options: GanttOptions, chartOptions: ChartOptions) {
+  static makeTaskHeader(options: GanttOptions, chartOptions: ChartOptions, svg: SVGElement) {
     let y = options.headerHeight;
     const headerWidth = chartOptions.startPosition;
     const fixedValueForSum = y;
@@ -91,10 +96,9 @@ export class Draw {
       y = y + headerHeight;
       newSVGHeight += headerHeight;
     }
-    // todo Uncomment this line
-    /*$.attr(this.$svg, {
+    attr(svg, {
       height: newSVGHeight
-    });*/
+    });
   }
 
 
@@ -123,7 +127,7 @@ export class Draw {
           class: 'upper-text',
           append_to: calendarLayer
         });
-        // remove out-of-bound dates
+        // remove out-of-bound dates // todo check this code bellow
         /*if ($upperText.getBBox().x2 > chartOptions.layers.grid.getBBox().width) {
           $upperText.remove();
         }*/
@@ -131,18 +135,135 @@ export class Draw {
     }
   }
 
-  drawBars(chartOptions: ChartOptions, options: GanttOptions) {
+  drawBars(chartOptions: ChartOptions, options: GanttOptions, gantt: Gantt, svg: SVGElement) {
     if (!options.projectOverview) {
-      Draw.makeTaskHeader(options, chartOptions);
+      Draw.makeTaskHeader(options, chartOptions, svg);
     }
-    /*this.bars = this.tasks.map(task => {
+    chartOptions.bars = chartOptions.tasks.map(task => {
       if (task.showOnGraph) {
-        const bar = new Bar(this, task);
+        const bar = new Bar(gantt, chartOptions, options, task);
         chartOptions.layers.bar.appendChild(bar.group);
         return bar;
       }
     });
 
-    Draw.changeSvgHeight();*/
+    Draw.changeSvgHeight(options, chartOptions, svg);
   }
+
+  setWidth(svg: SVGElement) {
+    const curWidth = svg.getBoundingClientRect().width;
+    const actualWidth = svg
+      .querySelector('.divisor .grid-row') // todo Change 'divisor' tag to .'grid'
+      .getAttribute('width');
+    if (curWidth < +actualWidth) {
+      svg.setAttribute('width', actualWidth);
+    }
+  }
+
+  /*
+     Scroll screen to content.
+     */
+  setScrollPosition(charOptions: ChartOptions, svg: SVGElement, gantt: Gantt, options: GanttOptions) {
+    const parentElement = svg.parentElement;
+    if (!parentElement) {
+      return;
+    }
+
+    const hoursBeforeFirstTask = diffBetweenDates(
+      getOldestStartingDate(charOptions),
+      gantt.start,
+      Scale.Hour
+    );
+    parentElement.scrollLeft = hoursBeforeFirstTask / options.step * options.columnWidth - options.columnWidth;
+  }
+
+  makeGridHighlights(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions, svg: SVGElement) {
+    // highlight today's date
+    let boxXCoords = 0;
+    if (options.viewMode === ViewMode.Day) {
+      boxXCoords = chartOptions.todayXCoords;
+    } else if (options.viewMode === ViewMode.Month) {
+      boxXCoords = chartOptions.highlightMonthXCoords;
+    } else if (options.viewMode === ViewMode.Week) {
+      boxXCoords = chartOptions.highlightWeekXCoords;
+    }
+    let x =
+      diffBetweenDates(getToday(), gantt.start, Scale.Hour) /
+      options.step *
+      options.columnWidth +
+      chartOptions.startPosition;
+
+    let y = options.headerHeight;
+
+    let width = options.columnWidth;
+    let height =
+      (options.barHeight + options.padding * 2) *
+      chartOptions.tasks.length +
+      options.headerHeight +
+      options.padding / 2;
+    createSVG('path', {
+      d: `M ${boxXCoords} ${y} v ${height}`,
+      id: 'td',
+      class: 'today-divisor',
+      append_to: chartOptions.layers.divisor
+    });
+
+    if (options.viewMode === ViewMode.Day || options.viewMode === ViewMode.Month) {
+      // change values for square.
+      height = 20;
+      width = 30;
+      y = options.headerHeight - 30;
+      if (options.viewMode === ViewMode.Month) {
+        x = chartOptions.highlightMonthNameXCoords - 15;
+      } else {
+        x = boxXCoords - 15;
+      }
+
+      createSVG('rect', {
+        x,
+        y,
+        width,
+        height,
+        class: 'today-highlight',
+        append_to: svg
+      });
+    }
+  }
+
+  makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions) {
+    const filterHeight = options.headerHeight;
+    const filter = new Filter(gantt);
+    const filterLayer = createSVG('svg', {
+      x: 0,
+      y: 0,
+      width: chartOptions.startPosition,
+      height: filterHeight,
+      class: 'filter',
+      append_to: chartOptions.layers.grid
+    });
+    const innerHtml = filter.getFilter();
+    const x = createSVG('foreignObject', {
+      x: 0,
+      y: 0,
+      width: chartOptions.startPosition,
+      height: filterHeight,
+      innerHTML: innerHtml,
+      class: 'filter',
+      append_to: filterLayer
+    });
+    console.log('foreign ', x);
+    filter.checkDefault(this.getFilterType(options));
+    filter.setClick(gantt);
+  }
+
+  getFilterType(options: GanttOptions) {
+    if (options.viewMode === ViewMode.Day) {
+      return 1;
+    } else if (options.viewMode === ViewMode.Week) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+
 }

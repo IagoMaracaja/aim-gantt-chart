@@ -12,6 +12,7 @@ export class ChartOptions {
   highlightMonthXCoords?: number;
   tasks?: any;
   svg?: SVGAElement;
+  bars?: SVGAElement[];
   calendar?: Date[];
 }
 

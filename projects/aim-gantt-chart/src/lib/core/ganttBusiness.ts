@@ -8,6 +8,7 @@ import {Draw} from './draw';
 import {Gantt} from '../models/gantt.models';
 import {TaskModel} from '../models/task.models';
 import {Injectable} from '@angular/core';
+import {getAllDebugNodes} from '@angular/core/src/debug/debug_node';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,6 @@ export class GanttBusiness {
     const dates = [];
     let curDate = null;
 
-    console.log('Gantt until here ', gantt);
-    console.log('Gantt Start value', gantt.start);
     while (curDate === null || curDate < gantt.end) {
       if (!curDate) {
         curDate = gantt.start;
@@ -39,7 +38,6 @@ export class GanttBusiness {
       }
       dates.push(curDate);
     }
-    console.log('Dates object, check how is is.', dates);
     return dates;
   }
 
@@ -70,7 +68,7 @@ export class GanttBusiness {
     for (const task of tasks) {
       // set global start and end date
       if (!gantt.start || task.start < gantt.start) {
-        gantt.start = new Date (task.start);
+        gantt.start = new Date(task.start);
       }
       if (!gantt.end || task.end > gantt.end) {
         gantt.end = new Date(task.end);
@@ -108,26 +106,28 @@ export class GanttBusiness {
     }
   }
 
-  render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions) {
+  render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions, gantt: Gantt) {
     GanttBusiness.clear(svg);
     GanttBusiness.setupLayers(svg, chartOptions);
     this.gridMaker.make(options, chartOptions);
     this.draw.drawDates(chartOptions, options);
 
-    // todo Uncomment these lines
-    /* this.make_bars();
-     this.set_width();
-     //this.set_scroll_position();
-     if (!this.options.projectOverview) {
-       this.make_filter();
-     }
-     if (
-       this.todayXCoord ||
-       this.highlightMonthXCoords ||
-       this.highlightWeekXCoords
-     ) {
-       this.make_grid_highlights();
-     }*/
+    this.draw.drawBars(chartOptions, options, gantt, svg);
+    this.draw.setWidth(svg);
+
+    this.draw.setScrollPosition(chartOptions, svg, gantt, options);
+
+
+    if (!options.projectOverview) {
+      this.draw.makeFilter(chartOptions, gantt, options);
+    }
+    if (
+      chartOptions.todayXCoords ||
+      chartOptions.highlightMonthXCoords ||
+      chartOptions.highlightWeekXCoords
+    ) {
+      this.draw.makeGridHighlights(chartOptions, gantt, options, svg);
+    }
   }
 }
 

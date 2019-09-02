@@ -148,7 +148,7 @@ export function getDaysInMonth(date) {
 
 export function getDatesToDraw(options: GanttOptions, chartOptions: ChartOptions) {
   let lastDate = null;
-  return this.dates.map((date, i) => {
+  return chartOptions.calendar.map((date, i) => {
     const d = getDateInfo(date, lastDate, i, options, chartOptions);
     lastDate = date;
     return d;
@@ -299,4 +299,18 @@ export function adjustMonthName(date, language, isReduce) {
     monthName = monthName.substr(0, 3);
   }
   return monthName.toUpperCase();
+}
+
+/**
+ * Gets the oldest starting date from the list of tasks
+ *
+ * @returns Date
+ */
+export function getOldestStartingDate(chartOptions: ChartOptions) {
+  return chartOptions.tasks
+    .map(task => task.start)
+    .reduce(
+      (prevDate, curDate) =>
+        curDate <= prevDate ? curDate : prevDate
+    );
 }
