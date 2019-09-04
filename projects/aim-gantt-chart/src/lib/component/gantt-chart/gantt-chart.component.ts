@@ -130,16 +130,13 @@ export class GanttChartComponent implements OnInit {
     const allTasks = [];
     for (const tsk of tasks) {
       this.chartOptions.taskLevelOneQty += 1;
-      allTasks.push(tsk);
-      if (tsk.taskList) {
-        for (const subTsk of tsk.taskList) {
-            allTasks.push(subTsk);
-        }
-      }
+      const array = tsk.taskList;
       if (this.options.projectOverview) {
-        allTasks.splice(0, 0, tsk);
+        array.splice(0, 0, tsk);
       }
+      allTasks.push.apply(allTasks, array);
     }
+
     // prepare tasks
     this.chartOptions.tasks = allTasks.map((task, i) => {
       // convert to Date objects

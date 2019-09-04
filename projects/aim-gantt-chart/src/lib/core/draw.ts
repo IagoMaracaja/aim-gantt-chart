@@ -55,7 +55,8 @@ export class Draw {
     let totalHeight = fixedValueForSum;
     let newSVGHeight = fixedValueForSum;
     let headerHeight = 0;
-    for (const tsk of chartOptions.allTasks) {
+    for (const tsk of chartOptions.allTasks) { // todo allTasks -> tasks - calculates is wrong
+      console.log(tsk.taskList.length);
       headerHeight =
         (options.barHeight + options.padding * 2) *
         tsk.taskList.length;

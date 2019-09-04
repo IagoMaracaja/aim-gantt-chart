@@ -19,7 +19,7 @@ export class AppComponent {
       {
         start: '2019-06-01',
         end: '2019-06-10',
-        name: 'Refreshed Tasks',
+        name: 'Refreshed Project',
         id: 'TaskModel 0',
         progress: 55,
         level: 0,
@@ -35,6 +35,16 @@ export class AppComponent {
             showOnGraph: true,
             level: 1,
             overdue: true
+          },
+          {
+            start: '2019-06-12',
+            end: '2019-06-15',
+            name: 'Another Task',
+            id: 'TaskModel 2',
+            progress: 100,
+            level: 2,
+            overdue: true,
+            showOnGraph: true,
           }
         ]
       }
