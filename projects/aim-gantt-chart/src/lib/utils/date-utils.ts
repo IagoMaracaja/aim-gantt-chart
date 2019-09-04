@@ -2,6 +2,7 @@ import {Language, Scale} from './enums';
 import {MonthNames} from './dates-language';
 import {GanttOptions} from '../models/ganttOptions.models';
 import {ChartOptions} from '../models/chartOptions.models';
+import {DatePipe} from '@angular/common';
 
 export function getToday() {
   return new Date();
@@ -171,9 +172,10 @@ export function getDateInfo(date, lastDate, i, options: GanttOptions, chartOptio
       options.language
     ),
     DayLower:
-      date.getDate() !== lastDate.getDate()
+    getFormattedDate(date, 'dd', options.language)
+      /*date.getDate() !== lastDate.getDate()
         ? format(date, 'D', options.language)
-        : '',
+        : ''*/,
     WeekLower: getNumberOfWeek(date),
     MonthLower: adjustMonthName(
       date,
@@ -192,9 +194,10 @@ export function getDateInfo(date, lastDate, i, options: GanttOptions, chartOptio
         : format(date, 'D', options.language)
         : '',
     DayUpper:
-      date.getMonth() !== lastDate.getMonth()
+      getFormattedDate(date, 'MMM yyyy', options.language)
+     /* date.getMonth() !== lastDate.getMonth()
         ? format(date, 'MMMM YYYY', options.language).toUpperCase()
-        : '',
+        : ''*/,
     WeekUpper:
       date.getMonth() !== lastDate.getMonth()
         ? format(date, 'MMMM YYYY', options.language).toUpperCase()
@@ -240,6 +243,11 @@ export function getDateInfo(date, lastDate, i, options: GanttOptions, chartOptio
   };
 }
 
+export function getFormattedDate(date, formatDate, language) {
+  const datePipe = new DatePipe('en-US');
+  return datePipe.transform(date, formatDate);
+}
+
 export function format(date, formatDate, language) {
   const formatString = formatDate ? 'YYYY-MM-DD HH:mm:ss.SSS' : formatDate;
   const lang = language ? Language.English : language;
@@ -256,7 +264,6 @@ export function format(date, formatDate, language) {
     MMMM: MonthNames[lang][+values[1]],
     MMM: MonthNames[lang][+values[1]]
   };
-
   let str = formatString;
   const formattedValues = [];
 

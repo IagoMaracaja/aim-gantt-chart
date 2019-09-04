@@ -21,7 +21,6 @@ export class GanttChartComponent implements OnInit {
   @Input() options: GanttOptions;
   private svg: SVGAElement;
   private container: HTMLDivElement;
-  private popupWrapper: HTMLDivElement;
   private chartOptions: ChartOptions = {};
   private gantt: Gantt = {};
 
@@ -81,9 +80,9 @@ export class GanttChartComponent implements OnInit {
     parentElement.appendChild(this.container);
 
     // popup wrapper
-    this.popupWrapper = document.createElement('div');
-    this.popupWrapper.classList.add('popup-wrapper-color');
-    this.container.appendChild(this.popupWrapper);
+    this.options.popupWrapper = document.createElement('div');
+    this.options.popupWrapper.classList.add('popup-wrapper-color');
+    this.container.appendChild(this.options.popupWrapper);
   }
 
   setupOptions(options) {
@@ -131,13 +130,16 @@ export class GanttChartComponent implements OnInit {
     const allTasks = [];
     for (const tsk of tasks) {
       this.chartOptions.taskLevelOneQty += 1;
-      const array = tsk.taskList;
-      if (this.options.projectOverview) {
-        array.splice(0, 0, tsk);
+      allTasks.push(tsk);
+      if (tsk.taskList) {
+        for (const subTsk of tsk.taskList) {
+            allTasks.push(subTsk);
+        }
       }
-      allTasks.push.apply(allTasks, array);
+      if (this.options.projectOverview) {
+        allTasks.splice(0, 0, tsk);
+      }
     }
-
     // prepare tasks
     this.chartOptions.tasks = allTasks.map((task, i) => {
       // convert to Date objects
@@ -203,7 +205,15 @@ export class GanttChartComponent implements OnInit {
     }
     this.updateViewScale(mode);
     this.setupDates();
-    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt);
+    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt, this);
+  }
+
+  refreshByFilter(viewMode) {
+    // this.hide_popup();
+    if (this.chartOptions.allTasks) {
+      this.setupTasks(this.chartOptions.allTasks);
+      this.changeViewMode(viewMode);
+    }
   }
 
   updateViewScale(viewMode) {

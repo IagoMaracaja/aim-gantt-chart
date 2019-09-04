@@ -8,6 +8,7 @@ import {Bar} from './bar';
 import {Gantt} from '../models/gantt.models';
 import {Scale, ViewMode} from '../utils/enums';
 import {Filter} from './filter';
+import {GanttChartComponent} from '../component/gantt-chart/gantt-chart.component';
 
 @Injectable({
   providedIn: 'root',
@@ -37,9 +38,13 @@ export class Draw {
           tsk.taskList.length;
         newSVGHeight += headerHeight;
       }
-      attr(svg, {
-        height: newSVGHeight
-      });
+
+      console.log('svg height ', svg.getBoundingClientRect().height);
+      svg.setAttribute('height', String(newSVGHeight));
+      console.log('svg new height ', svg.getBoundingClientRect().height);
+      /* attr(svg, {
+         height: newSVGHeight
+       });*/
     }
   }
 
@@ -57,7 +62,7 @@ export class Draw {
       const taskLevelOne = Draw.getLevelOneTask(tsk.taskList);
       const taskGroup = createSVG('g', {
         x: 0,
-        y: y,
+        y,
         width: headerWidth,
         height: headerHeight,
         class: 'task-header-group',
@@ -65,7 +70,7 @@ export class Draw {
       });
       createSVG('rect', {
         x: 0,
-        y: y,
+        y,
         width: headerWidth,
         height: headerHeight,
         class: 'task-header',
@@ -96,8 +101,22 @@ export class Draw {
       y = y + headerHeight;
       newSVGHeight += headerHeight;
     }
-    attr(svg, {
+
+    svg.setAttribute('height', String(newSVGHeight));
+    console.log('svg new height ', svg.getBoundingClientRect().height);
+    /*attr(svg, {
       height: newSVGHeight
+    });*/
+  }
+
+
+  private static createUpperDate(date, calendarLayer) {
+    return createSVG('text', {
+      x: date.upperX,
+      y: date.upperY,
+      innerHTML: date.upperText,
+      class: 'upper-text',
+      append_to: calendarLayer
     });
   }
 
@@ -119,18 +138,16 @@ export class Draw {
         append_to: calendarLayer
       });
 
-      if (date.upperText) {
-        const $upperText = createSVG('text', {
-          x: date.upperX,
-          y: date.upperY,
-          innerHTML: date.upperText,
-          class: 'upper-text',
-          append_to: calendarLayer
-        });
-        // remove out-of-bound dates // todo check this code bellow
-        /*if ($upperText.getBBox().x2 > chartOptions.layers.grid.getBBox().width) {
-          $upperText.remove();
-        }*/
+      switch (options.viewMode) {
+        case ViewMode.Day:
+          if (date.lowerText === '02' || date.lowerText === '29') {
+            Draw.createUpperDate(date, calendarLayer);
+          }
+          break;
+        case ViewMode.Week:
+          break;
+        case ViewMode.Month:
+          break;
       }
     }
   }
@@ -141,7 +158,8 @@ export class Draw {
     }
     chartOptions.bars = chartOptions.tasks.map(task => {
       if (task.showOnGraph) {
-        const bar = new Bar(gantt, chartOptions, options, task);
+        const bar = new Bar(gantt, chartOptions, options, task, svg);
+        bar.createBars();
         chartOptions.layers.bar.appendChild(bar.group);
         return bar;
       }
@@ -153,7 +171,7 @@ export class Draw {
   setWidth(svg: SVGElement) {
     const curWidth = svg.getBoundingClientRect().width;
     const actualWidth = svg
-      .querySelector('.divisor .grid-row') // todo Change 'divisor' tag to .'grid'
+      .querySelector('.grid .grid-row')
       .getAttribute('width');
     if (curWidth < +actualWidth) {
       svg.setAttribute('width', actualWidth);
@@ -230,7 +248,7 @@ export class Draw {
     }
   }
 
-  makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions) {
+  makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions, ganttComponent: GanttChartComponent) {
     const filterHeight = options.headerHeight;
     const filter = new Filter(gantt);
     const filterLayer = createSVG('svg', {
@@ -241,19 +259,18 @@ export class Draw {
       class: 'filter',
       append_to: chartOptions.layers.grid
     });
-    const innerHtml = filter.getFilter();
-    const x = createSVG('foreignObject', {
+
+    createSVG('foreignObject', {
       x: 0,
       y: 0,
       width: chartOptions.startPosition,
       height: filterHeight,
-      innerHTML: innerHtml,
       class: 'filter',
-      append_to: filterLayer
+      append_to: filterLayer,
+      innerHTML: filter.getFilter()
     });
-    console.log('foreign ', x);
     filter.checkDefault(this.getFilterType(options));
-    filter.setClick(gantt);
+    filter.setClick(ganttComponent);
   }
 
   getFilterType(options: GanttOptions) {

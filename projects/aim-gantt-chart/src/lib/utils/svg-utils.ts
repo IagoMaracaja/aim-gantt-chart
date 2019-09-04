@@ -1,26 +1,30 @@
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-
 export function createSVG(tag, attrs) {
   const elem = document.createElementNS('http://www.w3.org/2000/svg', tag);
   // tslint:disable-next-line:forin
   for (const attrib in attrs) {
     if (attrib === 'append_to') {
       const parent = attrs.append_to;
-      if (tag === 'foreignObject') {
-        console.log('attrs ', attrs);
-        console.log('elem ', elem);
-        console.log('parent ', parent);
+      if (attrs.class === 'divisor') {
       }
       if (parent) {
         parent.appendChild(elem);
       }
     } else if (attrib === 'innerHTML') {
-      elem.innerHTML = attrs.innerHTML;
+      // elem.innerHTML = attrs.innerHTML;
+      if (attrs.innerHTML) {
+        elem.appendChild(createFilterFromHTML(attrs.innerHTML));
+      }
     } else {
       elem.setAttribute(attrib, attrs[attrib]);
     }
   }
   return elem;
+}
+
+export function createFilterFromHTML(htmlString) {
+  const div = document.createElement('div');
+  div.innerHTML = htmlString.toString().trim();
+  return div.firstChild;
 }
 
 export function animateSVG(svgElement, attr, from, to) {
@@ -83,9 +87,9 @@ function cubic_bezier(name) {
 }
 
 export function attr(element, attribute, value?) {
-  if (!value && typeof attribute === 'string') {
+  /*if (!value && typeof attribute === 'string') {
     return element.getAttribute(attribute);
-  }
+  }*/
 
   if ((typeof attribute === 'undefined' ? 'undefined' : typeof (attribute)) === 'object') {
     // tslint:disable-next-line:forin
@@ -96,5 +100,31 @@ export function attr(element, attribute, value?) {
   }
 
   element.setAttribute(attribute, value);
+}
+
+export function on(element, event, selector, callback?) {
+  if (!callback) {
+    callback = selector;
+    bind(element, event, callback);
+  } else {
+    delegate(element, event, selector, callback);
+  }
+}
+
+export function bind(element, event, callback) {
+  // tslint:disable-next-line:only-arrow-functions no-shadowed-variable
+  event.split(/\s+/).forEach(function(event) {
+    element.addEventListener(event, callback);
+  });
+}
+
+export function delegate(element, event, selector, callback) {
+  element.addEventListener(event, function(e) {
+    const delegatedTarget = e.target.closest(selector);
+    if (delegatedTarget) {
+      e.delegatedTarget = delegatedTarget;
+      callback.call(this, e, delegatedTarget);
+    }
+  });
 }
 

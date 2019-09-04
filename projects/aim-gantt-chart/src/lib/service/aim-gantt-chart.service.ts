@@ -97,6 +97,7 @@ export class AimGanttChartService {
         progress: 55,
         level: 0,
         overdue: true,
+        showOnGraph: true,
         taskList: [
           {
             start: '2019-06-10',
@@ -105,6 +106,7 @@ export class AimGanttChartService {
             id: 'TaskModel 1',
             progress: 13,
             level: 1,
+            showOnGraph: true,
             overdue: true
           }
         ]

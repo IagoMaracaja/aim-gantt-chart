@@ -8,7 +8,7 @@ import {Draw} from './draw';
 import {Gantt} from '../models/gantt.models';
 import {TaskModel} from '../models/task.models';
 import {Injectable} from '@angular/core';
-import {getAllDebugNodes} from '@angular/core/src/debug/debug_node';
+import {GanttChartComponent} from '../component/gantt-chart/gantt-chart.component';
 
 @Injectable({
   providedIn: 'root',
@@ -53,12 +53,20 @@ export class GanttBusiness {
       class: 'grid',
       append_to: svg
     });
-    chartOptions.layers.grid = createSVG('g', {
+    chartOptions.layers.bar = createSVG('g', {
       class: 'bar',
       append_to: svg
     });
-    chartOptions.layers.grid = createSVG('g', {
+    chartOptions.layers.divisor = createSVG('g', {
       class: 'divisor',
+      append_to: svg
+    });
+    chartOptions.layers.tasks = createSVG('g', {
+      class: 'tasks',
+      append_to: svg
+    });
+    chartOptions.layers.filter = createSVG('g', {
+      class: 'filter',
       append_to: svg
     });
 
@@ -101,12 +109,11 @@ export class GanttBusiness {
       }
       gantt.start = addDate(gantt.start, qtDayBefore, Scale.Day);
       gantt.end = addDate(gantt.end, qtDayAfter, Scale.Day);
-
-      return gantt;
     }
+    return gantt;
   }
 
-  render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions, gantt: Gantt) {
+  render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions, gantt: Gantt, ganttComponent: GanttChartComponent) {
     GanttBusiness.clear(svg);
     GanttBusiness.setupLayers(svg, chartOptions);
     this.gridMaker.make(options, chartOptions);
@@ -119,7 +126,7 @@ export class GanttBusiness {
 
 
     if (!options.projectOverview) {
-      this.draw.makeFilter(chartOptions, gantt, options);
+      // this.draw.makeFilter(chartOptions, gantt, options, ganttComponent);
     }
     if (
       chartOptions.todayXCoords ||

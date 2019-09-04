@@ -10,4 +10,5 @@ export interface TaskBar {
   task?: TaskModel;
   duration?: number;
   cornerRadius?: number;
+  actionCompleted?: boolean;
 }

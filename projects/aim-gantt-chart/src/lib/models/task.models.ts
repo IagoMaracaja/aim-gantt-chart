@@ -9,4 +9,5 @@ export interface TaskModel {
   taskList: TaskModel[];
   index: number;
   invalid: boolean;
+  showOnGraph: boolean;
 }

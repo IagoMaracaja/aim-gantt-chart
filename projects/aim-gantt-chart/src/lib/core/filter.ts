@@ -1,4 +1,5 @@
 import {Gantt} from '../models/gantt.models';
+import {GanttChartComponent} from '../component/gantt-chart/gantt-chart.component';
 
 export class Filter {
   private gantt: Gantt;
@@ -57,13 +58,13 @@ export class Filter {
     }
   }
 
-  setClick(gantt: Gantt) {
+  setClick(ganttComponent: GanttChartComponent) {
     const radioBtnDay = document.getElementById('radioDay');
     radioBtnDay.addEventListener(
       'click',
       // tslint:disable-next-line:only-arrow-functions
       function() {
-        Filter.changeFilter(1, gantt);
+        Filter.changeFilter(1, ganttComponent);
       },
       false
     );
@@ -72,7 +73,7 @@ export class Filter {
       'click',
       // tslint:disable-next-line:only-arrow-functions
       function() {
-        Filter.changeFilter(2, gantt);
+        Filter.changeFilter(2, ganttComponent);
       },
       false
     );
@@ -81,7 +82,7 @@ export class Filter {
       'click',
       // tslint:disable-next-line:only-arrow-functions
       function() {
-        Filter.changeFilter(3, gantt);
+        Filter.changeFilter(3, ganttComponent);
       },
       false
     );

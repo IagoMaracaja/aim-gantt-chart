@@ -11,4 +11,6 @@ export interface GanttOptions {
   popupTrigger: string;
   language: string;
   projectOverview: boolean;
+  popupWrapper?: HTMLDivElement;
+  customPopupHtml?: string;
 }
