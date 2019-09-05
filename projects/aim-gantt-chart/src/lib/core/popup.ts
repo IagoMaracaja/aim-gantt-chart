@@ -60,6 +60,7 @@ export class Popup {
       this.pointer.style.top = '2px';*/
     }
 
+
     // show
     this.parent.style.opacity = 1;
   }

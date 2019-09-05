@@ -98,19 +98,19 @@
 }
 
 .gantt .bar-level-zero {
-  fill: var(--bar-level-zero-color);
+  fill: #D7E2FF;
 }
 
 .gantt .bar-level-one {
-  fill: var(--bar-level-one-color);
+  fill:#C5E09F;
 }
 
 .gantt .bar-level-two {
-  fill: var(--bar-level-two-color);
+  fill: #FAF4D1;
 }
 
 .gantt .bar-level-three {
-  fill: var(--bar-level-three-color);
+  fill: #F9E7DA;
 }
 
 .gantt .bar-overdue {
@@ -120,19 +120,19 @@
 }
 
 .gantt .bar-progress-zero {
-  fill: var(--progress-bar-level-zero-color);
+  fill: #648DFF;
 }
 
 .gantt .bar-progress-one {
-  fill: var(--progress-bar-level-one-color);
+  fill: #97C94E;
 }
 
 .gantt .bar-progress-two {
-  fill: var(--progress-bar-level-two-color);
+  fill: #F0DC6F;
 }
 
 .gantt .bar-progress-three {
-  fill: var(--progress-bar-level-three-color);
+  fill: #F0C09D;
 }
 
 .gantt .bar-invalid {
@@ -239,7 +239,7 @@
   overflow-x: scroll;
   overflow-y: scroll;
   font-size: 12px;
-  height: var(--gantt-container-height);
+  height: 100%;
   /*width: var(--gantt-container-width);*/
 }
 
@@ -267,7 +267,7 @@
 }
 
 .gantt-container .gantt-target {
-  height: var(--gantt-container-height);
+  height: 100%;
   width: 100%;
 }
 
@@ -297,35 +297,35 @@
 }
 
 .gantt-container .task-level-zero {
-  background: var(--progress-bar-level-zero-color);
+  background: #648DFF;
 }
 
 .gantt-container .task-level-zero .pointer {
-  border-top-color: var(--progress-bar-level-zero-color);
+  border-top-color: #648DFF;
 }
 
 .gantt-container .task-level-one {
-  background: var(--progress-bar-level-one-color);
+  background:#97C94E;
 }
 
 .gantt-container .task-level-one .pointer {
-  border-top-color: var(--progress-bar-level-one-color);
+  border-top-color: #97C94E;
 }
 
 .gantt-container .task-level-two {
-  background: var(--progress-bar-level-two-color);
+  background: #F0DC6F;
 }
 
 .gantt-container .task-level-two .pointer {
-  border-top-color: var(--progress-bar-level-two-color);
+  border-top-color: #F0DC6F;
 }
 
 .gantt-container .task-level-three {
-  background: var(--progress-bar-level-three-color);
+  background: #F0C09D;
 }
 
 .gantt-container .task-level-three .pointer {
-  border-top-color: var(--progress-bar-level-three-color);
+  border-top-color: #F0C09D;
 }
 
 .gantt-container .task-overdue {

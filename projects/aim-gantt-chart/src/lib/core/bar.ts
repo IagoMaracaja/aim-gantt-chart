@@ -192,7 +192,6 @@ export class Bar {
   updateLabelPosition() {
     const bar = this.bar;
     const label = this.group.querySelector('.bar-label');
-
     if (this.taskBar.task.overdue) {
       this.showTooltipToBigBar(true);
     }
@@ -200,14 +199,15 @@ export class Bar {
     if (label.getBoundingClientRect().width > +bar.getAttribute('width')) {
       this.addClass(label, 'big');
       this.showTooltipToBigBar(false);
-      label.remove();
+      this.barGroup.removeChild(label);
       this.drawLabelJustProgress();
     } else {
-      label.classList.remove('big');
-      const currentX = bar.getAttribute('x');
-      const currentWidth = +bar.getAttribute('width');
-      const newQualifiedX = currentX + currentWidth / 2;
-      label.setAttribute('x', newQualifiedX);
+      this.removeClass(label, 'big');
+      const radix = 10;
+      const currentX = parseInt(bar.getAttribute('x'), radix);
+      const currentWidth = parseInt(bar.getAttribute('width'), radix);
+      const newQualifiedX = currentX + (currentWidth / 2);
+      label.setAttribute('x', String(newQualifiedX));
     }
   }
 
@@ -279,7 +279,7 @@ export class Bar {
 
   }
 
-  showPopup() {
+  setupClickEventPopup() {
     const startDate = format(this.taskBar.task.start, 'MMM D', this.options.language);
     const endDate = format(
       addDate(this.taskBar.task.end, -1, Scale.Second),

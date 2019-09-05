@@ -39,9 +39,7 @@ export class Draw {
         newSVGHeight += headerHeight;
       }
 
-      console.log('svg height ', svg.getBoundingClientRect().height);
       svg.setAttribute('height', String(newSVGHeight));
-      console.log('svg new height ', svg.getBoundingClientRect().height);
       /* attr(svg, {
          height: newSVGHeight
        });*/
@@ -55,8 +53,7 @@ export class Draw {
     let totalHeight = fixedValueForSum;
     let newSVGHeight = fixedValueForSum;
     let headerHeight = 0;
-    for (const tsk of chartOptions.allTasks) { // todo allTasks -> tasks - calculates is wrong
-      console.log(tsk.taskList.length);
+    for (const tsk of chartOptions.allTasks) {
       headerHeight =
         (options.barHeight + options.padding * 2) *
         tsk.taskList.length;
@@ -104,7 +101,6 @@ export class Draw {
     }
 
     svg.setAttribute('height', String(newSVGHeight));
-    console.log('svg new height ', svg.getBoundingClientRect().height);
     /*attr(svg, {
       height: newSVGHeight
     });*/
