@@ -24,6 +24,8 @@ export class GanttChartComponent implements OnInit {
   private chartOptions: ChartOptions = {};
   private gantt: Gantt = {};
 
+  private wrapperElement;
+
   constructor(public ganttBusiness: GanttBusiness) {
   }
 
@@ -40,7 +42,6 @@ export class GanttChartComponent implements OnInit {
 
   setupWrapper(element) {
     let svgElement;
-    let wrapperElement;
 
     // CSS Selector is passed
     if (typeof element === 'string') {
@@ -49,7 +50,7 @@ export class GanttChartComponent implements OnInit {
 
     // get the SVGElement
     if (element instanceof HTMLElement) {
-      wrapperElement = element;
+      this.wrapperElement = element;
       svgElement = element.querySelector('svg');
     } else if (element instanceof SVGElement) {
       svgElement = element;
@@ -64,7 +65,7 @@ export class GanttChartComponent implements OnInit {
     if (!svgElement) {
       // create it
       this.svg = createSVG('svg', {
-        append_to: wrapperElement,
+        append_to: this.wrapperElement,
         class: 'gantt'
       });
     } else {
@@ -77,12 +78,14 @@ export class GanttChartComponent implements OnInit {
     this.container.classList.add('gantt-container');
 
     const parentElement = document.getElementsByTagName('svg').item(0);
-    parentElement.appendChild(this.container);
+    this.wrapperElement.appendChild(this.container);
+    this.container.appendChild(parentElement);
 
     // popup wrapper
     this.options.popupWrapper = document.createElement('div');
     this.options.popupWrapper.classList.add('popup-wrapper-color');
     this.container.appendChild(this.options.popupWrapper);
+
   }
 
   setupOptions(options) {
@@ -202,7 +205,7 @@ export class GanttChartComponent implements OnInit {
     }
     this.updateViewScale(mode);
     this.setupDates();
-    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt, this);
+    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt, this, this.wrapperElement);
   }
 
   refreshByFilter(viewMode) {

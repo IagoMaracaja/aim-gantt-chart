@@ -1,4 +1,4 @@
-import {attr, createSVG} from '../utils/svg-utils';
+import {attr, createFilterFromHTML, createSVG} from '../utils/svg-utils';
 import {ChartOptions} from '../models/chartOptions.models';
 import {diffBetweenDates, getDatesToDraw, getOldestStartingDate, getToday} from '../utils/date-utils';
 import {GanttOptions} from '../models/ganttOptions.models';
@@ -245,7 +245,7 @@ export class Draw {
     }
   }
 
-  makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions, ganttComponent: GanttChartComponent) {
+  makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions, ganttComponent: GanttChartComponent, wrapperElement: any) {
     const filterHeight = options.headerHeight;
     const filter = new Filter(gantt);
     const filterLayer = createSVG('svg', {
@@ -254,10 +254,12 @@ export class Draw {
       width: chartOptions.startPosition,
       height: filterHeight,
       class: 'filter',
-      append_to: chartOptions.layers.grid
+      append_to: wrapperElement
     });
 
-    createSVG('foreignObject', {
+    wrapperElement.appendChild(createFilterFromHTML(filter.getFilter()));
+
+    /*createSVG('rect', {
       x: 0,
       y: 0,
       width: chartOptions.startPosition,
@@ -265,7 +267,7 @@ export class Draw {
       class: 'filter',
       append_to: filterLayer,
       innerHTML: filter.getFilter()
-    });
+    });*/
     filter.checkDefault(this.getFilterType(options));
     filter.setClick(ganttComponent);
   }

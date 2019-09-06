@@ -20,6 +20,7 @@ export class Bar {
   private svg: SVGElement;
   private popup: Popup;
 
+
   constructor(gantt: Gantt, chartOptions: ChartOptions, options: GanttOptions, task: TaskModel, svg: SVGElement) {
     this.gantt = gantt;
     this.chartOptions = chartOptions;
@@ -65,24 +66,6 @@ export class Bar {
       append_to: this.group
     });
   }
-
-  /*prepareHelpers() {
-    SVGElement.prototype.getX = function() {
-      return +this.getAttribute('x');
-    };
-    SVGElement.prototype.getY = function() {
-      return +this.getAttribute('y');
-    };
-    SVGElement.prototype.getWidth = function() {
-      return +this.getAttribute('width');
-    };
-    SVGElement.prototype.getHeight = function() {
-      return +this.getAttribute('height');
-    };
-    SVGElement.prototype.getEndX = function() {
-      return this.getX() + this.getWidth();
-    };
-  }*/
 
   computeX() {
     const step = this.options.step;
@@ -242,7 +225,6 @@ export class Bar {
         this.triggerEvent('click', [this.taskBar.task]);
       }
 
-
       this.unselectAll();
       this.addClass(this.group, 'active');
 
@@ -259,7 +241,6 @@ export class Bar {
       this.show_popup({
         target_element: this.bar,
         title,
-        /* subtitle: subtitle,*/
         task: this.taskBar.task
       });
 

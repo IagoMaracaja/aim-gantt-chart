@@ -179,8 +179,11 @@
   transition: opacity .3s ease;
 }
 
-.gantt .filter {
+.filter {
   fill: #ffffff;
+  position: relative;
+  top: 0;
+  left: 0;
 }
 
 .gantt .bar-wrapper {

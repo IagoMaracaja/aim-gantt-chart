@@ -113,7 +113,7 @@ export class GanttBusiness {
     return gantt;
   }
 
-  render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions, gantt: Gantt, ganttComponent: GanttChartComponent) {
+  render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions, gantt: Gantt, ganttComponent: GanttChartComponent, wrapperElement: any) {
     GanttBusiness.clear(svg);
     GanttBusiness.setupLayers(svg, chartOptions);
     this.gridMaker.make(options, chartOptions);
@@ -126,7 +126,7 @@ export class GanttBusiness {
 
 
     if (!options.projectOverview) {
-      // this.draw.makeFilter(chartOptions, gantt, options, ganttComponent);
+       this.draw.makeFilter(chartOptions, gantt, options, ganttComponent, wrapperElement);
     }
     if (
       chartOptions.todayXCoords ||

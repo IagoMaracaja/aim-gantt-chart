@@ -24,19 +24,21 @@ export class Filter {
 
   getFilter() {
     return `
-        <div class="radio-btn">
-            <label class="container">Days
-               <input type="radio" id="radioDay" checked="checked" name="radio">
-               <span class="checkmark"/>
-            </label>
-            <label class="container">Week
-              <input type="radio" id="radioWeek" name="radio">
-              <span class="checkmark"/>
-            </label>
-            <label class="container">Month
-              <input type="radio" id="radioMonth" name="radio">
-              <span class="checkmark"/>
-            </label>
+        <div class="filter">
+          <div class="radio-btn">
+              <label class="container">Days
+                 <input type="radio" id="radioDay" checked="checked" name="radio">
+                 <span class="checkmark"/>
+              </label>
+              <label class="container">Week
+                <input type="radio" id="radioWeek" name="radio">
+                <span class="checkmark"/>
+              </label>
+              <label class="container">Month
+                <input type="radio" id="radioMonth" name="radio">
+                <span class="checkmark"/>
+              </label>
+          </div>
         </div>
     `;
   }

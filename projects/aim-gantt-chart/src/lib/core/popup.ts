@@ -1,10 +1,12 @@
 import {RElement} from '@angular/core/src/render3/interfaces/renderer';
+import {createFilterFromHTML} from '../utils/svg-utils';
 
 export class Popup {
   private customHtml: any;
   private parent: any;
-  private title: Element;
-  private pointer: Element;
+  private title: any;
+  private pointer: any;
+
   constructor(parent, customHtml) {
     this.parent = parent;
     this.customHtml = customHtml;
@@ -35,7 +37,7 @@ export class Popup {
     if (this.customHtml) {
       let html = this.customHtml(options.task);
       html += '<div class="pointer"></div>';
-      this.parent.innerHTML = html;
+      this.parent.innerHTML = createFilterFromHTML(html);
       this.pointer = this.parent.querySelector('.pointer');
     } else {
       // set data
@@ -55,14 +57,14 @@ export class Popup {
         positionMeta.x + (positionMeta.width + 10) + 'px';
       this.parent.style.top = positionMeta.y + 'px';
 
-      /*this.pointer.style.transform = 'rotateZ(90deg)';
+      this.pointer.style.transform = 'rotateZ(90deg)';
       this.pointer.style.left = '-7px';
-      this.pointer.style.top = '2px';*/
+      this.pointer.style.top = '2px';
     }
-
 
     // show
     this.parent.style.opacity = 1;
+
   }
 
   hide() {
