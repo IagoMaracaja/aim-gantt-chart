@@ -1,4 +1,4 @@
-import {createSVG} from '../utils/svg-utils';
+import {attr, createSVG} from '../utils/svg-utils';
 import {GanttOptions} from '../models/ganttOptions.models';
 import {addDate, getDaysInMonth, getNumberOfWeek, getToday} from '../utils/date-utils';
 import {Scale, ViewMode} from '../utils/enums';
@@ -67,8 +67,18 @@ export class GridMaker {
   }
 
   makeGridRows() {
-    const rowsLayer = createSVG('g', {append_to: this.chartOptions.layers.grid});
-    const linesLayer = createSVG('g', {append_to: this.chartOptions.layers.grid});
+    const rowsLayer = createSVG('g',
+      {
+        append_to: this.chartOptions.layers.grid,
+        class: 'rows'
+      }
+    );
+    const linesLayer = createSVG('g',
+      {
+        append_to: this.chartOptions.layers.grid,
+        class: 'lines'
+      }
+    );
 
     const rowWidth = this.chartOptions.calendar.length * this.options.columnWidth;
     const rowHeight = this.options.barHeight + this.options.padding * 2;
@@ -194,17 +204,17 @@ export class GridMaker {
       createSVG('path', {
         d: `M ${tickX} ${tickY} v ${tickHeight}`,
         class: tickClass,
-        append_to: this.chartOptions.layers.grid
+        append_to: this.chartOptions.layers.divisor
       });
       tickX += this.options.columnWidth;
     }
   }
 
   changeGridAttr(gridHeight, gridWidth, svg: SVGAElement) {
-    /*$.attr(this.$svg, {
+    attr(svg, {
       height: gridHeight,
       width: gridWidth
-    });*/
+    });
   }
 
   make_divisor_highlights(x) {
@@ -217,7 +227,7 @@ export class GridMaker {
     createSVG('path', {
       d: `M ${x} ${y} v ${height}`,
       class: 'month-divisor',
-      append_to: this.chartOptions.layers.grid
+      append_to: this.chartOptions.layers.divisor
     });
   }
 }

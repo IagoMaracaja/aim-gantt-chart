@@ -241,7 +241,13 @@ export class GanttChartComponent implements OnInit {
   }
 
   setupDates() {
-    this.gantt = GanttBusiness.setupGanttDates(this.gantt, this.tasks, this.options);
+    this.clearDates();
+    // this.gantt = GanttBusiness.setupGanttDates(this.gantt, this.tasks, this.options);
+    this.gantt = GanttBusiness.getGanttDates(this.gantt, this.tasks, this.options);
     this.chartOptions.calendar = GanttBusiness.setupDateValues(this.gantt, this.options);
+  }
+
+  private clearDates() {
+    this.chartOptions.calendar = [];
   }
 }

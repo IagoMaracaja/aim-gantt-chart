@@ -30,6 +30,12 @@ export function addDate(date, qty, scale) {
   return dateAdded;
 }
 
+export function addDaysToDate(date: Date, days: number): Date {
+  date.setDate(date.getDate() + days);
+  return date;
+}
+
+
 export function getDateValues(date) {
   return [
     date.getFullYear(),
@@ -172,10 +178,7 @@ export function getDateInfo(date, lastDate, i, options: GanttOptions, chartOptio
       options.language
     ),
     DayLower:
-    getFormattedDate(date, 'dd', options.language)
-      /*date.getDate() !== lastDate.getDate()
-        ? format(date, 'D', options.language)
-        : ''*/,
+      getFormattedDate(date, 'dd', options.language),
     WeekLower: getNumberOfWeek(date),
     MonthLower: adjustMonthName(
       date,
@@ -194,22 +197,13 @@ export function getDateInfo(date, lastDate, i, options: GanttOptions, chartOptio
         : format(date, 'D', options.language)
         : '',
     DayUpper:
-      getFormattedDate(date, 'MMM yyyy', options.language)
-     /* date.getMonth() !== lastDate.getMonth()
-        ? format(date, 'MMMM YYYY', options.language).toUpperCase()
-        : ''*/,
+      getFormattedDate(date, 'MMM yyyy', options.language),
     WeekUpper:
-      date.getMonth() !== lastDate.getMonth()
-        ? format(date, 'MMMM YYYY', options.language).toUpperCase()
-        : '',
+      getFormattedDate(date, 'MMM yyyy', options.language),
     MonthUpper:
-      date.getFullYear() !== lastDate.getFullYear()
-        ? format(date, 'YYYY', options.language)
-        : '',
+      getFormattedDate(date, 'yyyy', options.language),
     YearUpper:
-      date.getFullYear() !== lastDate.getFullYear()
-        ? format(date, 'YYYY', options.language)
-        : ''
+      getFormattedDate(date, 'yyyy', options.language)
   };
 
   const basePos = {
@@ -301,7 +295,9 @@ function padStart(str, targetLength, padString) {
 }
 
 export function adjustMonthName(date, language, isReduce) {
-  let monthName = format(date, 'MMMM', language);
+
+  const datePipe = new DatePipe(language);
+  let monthName = datePipe.transform(date, 'MMM');
   if (isReduce) {
     monthName = monthName.substr(0, 3);
   }

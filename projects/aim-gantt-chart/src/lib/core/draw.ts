@@ -9,6 +9,7 @@ import {Gantt} from '../models/gantt.models';
 import {Scale, ViewMode} from '../utils/enums';
 import {Filter} from './filter';
 import {GanttChartComponent} from '../component/gantt-chart/gantt-chart.component';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Injectable({
   providedIn: 'root',
@@ -216,12 +217,14 @@ export class Draw {
       chartOptions.tasks.length +
       options.headerHeight +
       options.padding / 2;
-    createSVG('path', {
-      d: `M ${boxXCoords} ${y} v ${height}`,
-      id: 'td',
-      class: 'today-divisor',
-      append_to: chartOptions.layers.divisor
-    });
+    if (boxXCoords) {
+      createSVG('path', {
+        d: `M ${boxXCoords} ${y} v ${height}`,
+        id: 'td',
+        class: 'today-divisor',
+        append_to: chartOptions.layers.divisor
+      });
+    }
 
     if (options.viewMode === ViewMode.Day || options.viewMode === ViewMode.Month) {
       // change values for square.
@@ -234,30 +237,36 @@ export class Draw {
         x = boxXCoords - 15;
       }
 
-      createSVG('rect', {
-        x,
-        y,
-        width,
-        height,
-        class: 'today-highlight',
-        append_to: svg
-      });
+      if (x) { // x can be undefined when change view mode
+        createSVG('rect', {
+          x,
+          y,
+          width,
+          height,
+          class: 'today-highlight',
+          append_to: svg
+        });
+      }
+
     }
   }
 
   makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions, ganttComponent: GanttChartComponent, wrapperElement: any) {
-    const filterHeight = options.headerHeight;
+    // const filterHeight = options.headerHeight;
     const filter = new Filter(gantt);
-    const filterLayer = createSVG('svg', {
+    /*const filterLayer = createSVG('svg', {
       x: 0,
       y: 0,
       width: chartOptions.startPosition,
       height: filterHeight,
       class: 'filter',
       append_to: wrapperElement
-    });
+    });*/
 
-    wrapperElement.appendChild(createFilterFromHTML(filter.getFilter()));
+    const elem = (wrapperElement as HTMLElement);
+    if (document.getElementById('ganttFilter') === null) {
+      wrapperElement.appendChild(createFilterFromHTML(filter.getFilter()));
+    }
 
     /*createSVG('rect', {
       x: 0,

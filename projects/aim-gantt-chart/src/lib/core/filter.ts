@@ -24,7 +24,7 @@ export class Filter {
 
   getFilter() {
     return `
-        <div class="filter">
+        <div class="filter" id="ganttFilter">
           <div class="radio-btn">
               <label class="container">Days
                  <input type="radio" id="radioDay" checked="checked" name="radio">

@@ -1,4 +1,4 @@
-import {addDate, diffBetweenDates, startOf} from '../utils/date-utils';
+import {addDate, addDaysToDate, diffBetweenDates, startOf} from '../utils/date-utils';
 import {Scale, ViewMode} from '../utils/enums';
 import {GanttOptions} from '../models/ganttOptions.models';
 import {createSVG} from '../utils/svg-utils';
@@ -23,7 +23,6 @@ export class GanttBusiness {
   static setupDateValues(gantt: Gantt, options: GanttOptions) {
     const dates = [];
     let curDate = null;
-
     while (curDate === null || curDate < gantt.end) {
       if (!curDate) {
         curDate = gantt.start;
@@ -41,8 +40,9 @@ export class GanttBusiness {
     return dates;
   }
 
-  static clear(svg: SVGAElement) {
+  static clear(svg: SVGAElement, chartOptions: ChartOptions) {
     svg.innerHTML = '';
+    //chartOptions.todayXCoords = null;
   }
 
   static setupLayers(svg: SVGAElement, chartOptions: ChartOptions) {
@@ -61,15 +61,59 @@ export class GanttBusiness {
       class: 'divisor',
       append_to: svg
     });
-    chartOptions.layers.tasks = createSVG('g', {
-      class: 'tasks',
-      append_to: svg
-    });
     chartOptions.layers.filter = createSVG('g', {
       class: 'filter',
       append_to: svg
     });
 
+  }
+
+  static getGanttDates(gantt: Gantt, tasks: TaskModel[], options: GanttOptions): Gantt {
+    gantt = this.getBoundsOfDates(tasks, gantt);
+    let beforeDays;
+    let afterDays;
+    const diffBetweenDays = diffBetweenDates(gantt.end, gantt.start);
+    switch (options.viewMode) {
+      case ViewMode.Day:
+        beforeDays = diffBetweenDays < 30 ? - 5 : -1 ;
+        afterDays = diffBetweenDays < 15 ?  30 : 10 ;
+        break;
+      case ViewMode.Week:
+        beforeDays = diffBetweenDays < 30 ? - 15 : -7 ;
+        afterDays = diffBetweenDays < 30 ?  120 : 30 ;
+        break;
+      case ViewMode.Month:
+        beforeDays = diffBetweenDays < 30 ? - 90 : -30 ;
+        afterDays = diffBetweenDays < 30 ?  730 : 365 ;
+        break;
+    }
+    gantt.start = addDaysToDate(gantt.start, beforeDays);
+    gantt.end = addDaysToDate(gantt.end, afterDays);
+    return gantt;
+  }
+
+  static getBoundsOfDates(tasks: TaskModel[], gantt: Gantt) {
+    let start;
+    let end;
+    for (const task of tasks) {
+      const startTaskDate = new Date(task.start);
+      const endTaskDate = new Date(task.end);
+
+      if (!start) {
+        start = startTaskDate;
+      } else {
+        start = startTaskDate < start ? startTaskDate : start;
+      }
+      if (!end) {
+        end = endTaskDate;
+      } else {
+        end = endTaskDate > end ? endTaskDate : end;
+      }
+
+    }
+    gantt.start = start;
+    gantt.end = end;
+    return gantt;
   }
 
   static setupGanttDates(gantt: Gantt, tasks: TaskModel[], options: GanttOptions) {
@@ -85,7 +129,6 @@ export class GanttBusiness {
 
     gantt.start = startOf(gantt.start, Scale.Day);
     gantt.end = startOf(gantt.end, Scale.Day);
-
     // add date padding on both sides
     if (options.viewMode === ViewMode.QuarterDay
       || options.viewMode === ViewMode.HalfDay) {
@@ -113,9 +156,11 @@ export class GanttBusiness {
     return gantt;
   }
 
-  render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions, gantt: Gantt, ganttComponent: GanttChartComponent, wrapperElement: any) {
-    GanttBusiness.clear(svg);
+  render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions,
+         gantt: Gantt, ganttComponent: GanttChartComponent, wrapperElement: any) {
+    GanttBusiness.clear(svg, chartOptions);
     GanttBusiness.setupLayers(svg, chartOptions);
+    chartOptions.svg = svg;
     this.gridMaker.make(options, chartOptions);
     this.draw.drawDates(chartOptions, options);
 
@@ -126,7 +171,7 @@ export class GanttBusiness {
 
 
     if (!options.projectOverview) {
-       this.draw.makeFilter(chartOptions, gantt, options, ganttComponent, wrapperElement);
+      this.draw.makeFilter(chartOptions, gantt, options, ganttComponent, wrapperElement);
     }
     if (
       chartOptions.todayXCoords ||

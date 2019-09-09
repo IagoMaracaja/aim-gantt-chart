@@ -20,6 +20,5 @@ class Layer {
   grid?: SVGAElement;
   bar?: SVGAElement;
   divisor?: SVGAElement;
-  tasks?: SVGAElement;
   filter?: SVGAElement;
 }
