@@ -413,3 +413,20 @@
   border-radius: 80%;
   background: #75B141;
 }
+.checkbox {
+  stroke: #75B141;
+  stroke-width: 1;
+  transition: stroke-width .3s ease;
+  user-select: none;
+}
+
+.gantt .filter-option-name {
+  stroke-width: 1;
+  stroke: #000000;
+  dominant-baseline: central;
+  text-anchor: middle;
+}
+
+.gantt .circle {
+  fill: #75B141;
+}

@@ -253,7 +253,10 @@ export class Draw {
 
   makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions, ganttComponent: GanttChartComponent, wrapperElement: any) {
     // const filterHeight = options.headerHeight;
-    const filter = new Filter(gantt);
+    const filter = new Filter(gantt, chartOptions, options);
+
+    filter.drawFilter();
+
     /*const filterLayer = createSVG('svg', {
       x: 0,
       y: 0,
