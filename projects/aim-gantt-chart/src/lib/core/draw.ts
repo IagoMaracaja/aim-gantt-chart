@@ -1,4 +1,4 @@
-import {attr, createFilterFromHTML, createSVG} from '../utils/svg-utils';
+import {attr, createHTMLFromString, createSVG} from '../utils/svg-utils';
 import {ChartOptions} from '../models/chartOptions.models';
 import {diffBetweenDates, getDatesToDraw, getOldestStartingDate, getToday} from '../utils/date-utils';
 import {GanttOptions} from '../models/ganttOptions.models';
@@ -251,37 +251,9 @@ export class Draw {
     }
   }
 
-  makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions, ganttComponent: GanttChartComponent, wrapperElement: any) {
-    // const filterHeight = options.headerHeight;
-    const filter = new Filter(gantt, chartOptions, options);
-
+  makeFilter(chartOptions: ChartOptions, gantt: Gantt, options: GanttOptions, ganttComponent: GanttChartComponent) {
+    const filter = new Filter(gantt, chartOptions, options, this.getFilterType(options), ganttComponent);
     filter.drawFilter();
-
-    /*const filterLayer = createSVG('svg', {
-      x: 0,
-      y: 0,
-      width: chartOptions.startPosition,
-      height: filterHeight,
-      class: 'filter',
-      append_to: wrapperElement
-    });*/
-
-    const elem = (wrapperElement as HTMLElement);
-    if (document.getElementById('ganttFilter') === null) {
-      wrapperElement.appendChild(createFilterFromHTML(filter.getFilter()));
-    }
-
-    /*createSVG('rect', {
-      x: 0,
-      y: 0,
-      width: chartOptions.startPosition,
-      height: filterHeight,
-      class: 'filter',
-      append_to: filterLayer,
-      innerHTML: filter.getFilter()
-    });*/
-    filter.checkDefault(this.getFilterType(options));
-    filter.setClick(ganttComponent);
   }
 
   getFilterType(options: GanttOptions) {

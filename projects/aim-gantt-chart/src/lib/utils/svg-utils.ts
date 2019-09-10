@@ -12,7 +12,7 @@ export function createSVG(tag, attrs) {
     } else if (attrib === 'innerHTML') {
       // elem.innerHTML = attrs.innerHTML;
       if (attrs.innerHTML) {
-        elem.appendChild(createFilterFromHTML(attrs.innerHTML));
+        elem.appendChild(createHTMLFromString(attrs.innerHTML));
       }
     } else {
       elem.setAttribute(attrib, attrs[attrib]);
@@ -21,7 +21,7 @@ export function createSVG(tag, attrs) {
   return elem;
 }
 
-export function createFilterFromHTML(htmlString) {
+export function createHTMLFromString(htmlString) {
   const div = document.createElement('div');
   div.innerHTML = htmlString.toString().trim();
   return div.firstChild;

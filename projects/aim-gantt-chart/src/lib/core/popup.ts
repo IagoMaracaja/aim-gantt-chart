@@ -1,5 +1,5 @@
 import {RElement} from '@angular/core/src/render3/interfaces/renderer';
-import {createFilterFromHTML} from '../utils/svg-utils';
+import {createHTMLFromString} from '../utils/svg-utils';
 
 export class Popup {
   private customHtml: any;
@@ -37,7 +37,7 @@ export class Popup {
     if (this.customHtml) {
       let html = this.customHtml(options.task);
       html += '<div class="pointer"></div>';
-      this.parent.innerHTML = createFilterFromHTML(html);
+      this.parent.innerHTML = createHTMLFromString(html);
       this.pointer = this.parent.querySelector('.pointer');
     } else {
       // set data

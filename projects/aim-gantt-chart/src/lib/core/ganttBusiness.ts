@@ -1,7 +1,7 @@
 import {addDate, addDaysToDate, diffBetweenDates, startOf} from '../utils/date-utils';
 import {Scale, ViewMode} from '../utils/enums';
 import {GanttOptions} from '../models/ganttOptions.models';
-import {createSVG} from '../utils/svg-utils';
+import {createHTMLFromString, createSVG} from '../utils/svg-utils';
 import {GridMaker} from './gridMaker';
 import {ChartOptions} from '../models/chartOptions.models';
 import {Draw} from './draw';
@@ -40,9 +40,10 @@ export class GanttBusiness {
     return dates;
   }
 
-  static clear(svg: SVGAElement, chartOptions: ChartOptions) {
-    svg.innerHTML = '';
-    //chartOptions.todayXCoords = null;
+  static clear(svg: SVGAElement) {
+    svg.textContent = '';
+    return svg;
+
   }
 
   static setupLayers(svg: SVGAElement, chartOptions: ChartOptions) {
@@ -75,16 +76,16 @@ export class GanttBusiness {
     const diffBetweenDays = diffBetweenDates(gantt.end, gantt.start);
     switch (options.viewMode) {
       case ViewMode.Day:
-        beforeDays = diffBetweenDays < 30 ? - 5 : -1 ;
-        afterDays = diffBetweenDays < 15 ?  30 : 10 ;
+        beforeDays = diffBetweenDays < 30 ? -5 : -1;
+        afterDays = diffBetweenDays < 15 ? 30 : 10;
         break;
       case ViewMode.Week:
-        beforeDays = diffBetweenDays < 30 ? - 15 : -7 ;
-        afterDays = diffBetweenDays < 30 ?  120 : 30 ;
+        beforeDays = diffBetweenDays < 30 ? -15 : -7;
+        afterDays = diffBetweenDays < 30 ? 120 : 30;
         break;
       case ViewMode.Month:
-        beforeDays = diffBetweenDays < 30 ? - 90 : -30 ;
-        afterDays = diffBetweenDays < 30 ?  730 : 365 ;
+        beforeDays = diffBetweenDays < 30 ? -90 : -30;
+        afterDays = diffBetweenDays < 30 ? 730 : 365;
         break;
     }
     gantt.start = addDaysToDate(gantt.start, beforeDays);
@@ -157,8 +158,8 @@ export class GanttBusiness {
   }
 
   render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions,
-         gantt: Gantt, ganttComponent: GanttChartComponent, wrapperElement: any) {
-    GanttBusiness.clear(svg, chartOptions);
+         gantt: Gantt, ganttComponent: GanttChartComponent) {
+    GanttBusiness.clear(svg);
     GanttBusiness.setupLayers(svg, chartOptions);
     chartOptions.svg = svg;
     this.gridMaker.make(options, chartOptions);
@@ -171,7 +172,7 @@ export class GanttBusiness {
 
 
     if (!options.projectOverview) {
-      this.draw.makeFilter(chartOptions, gantt, options, ganttComponent, wrapperElement);
+      this.draw.makeFilter(chartOptions, gantt, options, ganttComponent);
     }
     if (
       chartOptions.todayXCoords ||

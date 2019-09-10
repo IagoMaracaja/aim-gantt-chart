@@ -205,7 +205,7 @@ export class GanttChartComponent implements OnInit {
     }
     this.updateViewScale(mode);
     this.setupDates();
-    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt, this, this.wrapperElement);
+    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt, this);
   }
 
   refreshByFilter(viewMode) {
