@@ -36,6 +36,9 @@ export class Bar {
 
   private prepare() {
     this.prepareValues();
+    if (this.popup) {
+      this.popup.hide();
+    }
     // this.prepareHelpers();
   }
 

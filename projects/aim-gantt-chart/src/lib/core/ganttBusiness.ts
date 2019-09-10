@@ -40,8 +40,11 @@ export class GanttBusiness {
     return dates;
   }
 
-  static clear(svg: SVGAElement) {
+  static clear(svg: SVGAElement, options: GanttOptions) {
     svg.textContent = '';
+    if (options.popupWrapper) {
+      options.popupWrapper.textContent = '';
+    }
     return svg;
 
   }
@@ -159,7 +162,7 @@ export class GanttBusiness {
 
   render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions,
          gantt: Gantt, ganttComponent: GanttChartComponent) {
-    GanttBusiness.clear(svg);
+    GanttBusiness.clear(svg, options);
     GanttBusiness.setupLayers(svg, chartOptions);
     chartOptions.svg = svg;
     this.gridMaker.make(options, chartOptions);

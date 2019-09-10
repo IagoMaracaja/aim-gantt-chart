@@ -2,7 +2,7 @@ import {RElement} from '@angular/core/src/render3/interfaces/renderer';
 import {createHTMLFromString} from '../utils/svg-utils';
 
 export class Popup {
-  private customHtml: any;
+  private readonly customHtml: any;
   private parent: any;
   private title: any;
   private pointer: any;

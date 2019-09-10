@@ -215,7 +215,7 @@ export class GanttChartComponent implements OnInit {
       this.changeViewMode(viewMode);
     }
   }
-
+  
   updateViewScale(viewMode) {
     this.options.viewMode = viewMode;
     const hoursOfDay = 24;
