@@ -9,7 +9,6 @@ import {Gantt} from '../models/gantt.models';
 import {Scale, ViewMode} from '../utils/enums';
 import {Filter} from './filter';
 import {GanttChartComponent} from '../component/gantt-chart/gantt-chart.component';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Injectable({
   providedIn: 'root',
@@ -41,9 +40,6 @@ export class Draw {
       }
 
       svg.setAttribute('height', String(newSVGHeight));
-      /* attr(svg, {
-         height: newSVGHeight
-       });*/
     }
   }
 
@@ -102,9 +98,6 @@ export class Draw {
     }
 
     svg.setAttribute('height', String(newSVGHeight));
-    /*attr(svg, {
-      height: newSVGHeight
-    });*/
   }
 
 
@@ -120,6 +113,7 @@ export class Draw {
 
 
   drawDates(chartOptions: ChartOptions, options: GanttOptions) {
+    let monthPlottedNames = [];
     const calendarLayer = createSVG('g', {
       x: chartOptions.dateStartPosition,
       y: 0,
@@ -143,8 +137,15 @@ export class Draw {
           }
           break;
         case ViewMode.Week:
+          if (monthPlottedNames.indexOf(date.upperText) === -1) {
+            Draw.createUpperDate(date, calendarLayer);
+            monthPlottedNames.push(date.upperText);
+          }
           break;
         case ViewMode.Month:
+          if (date.lowerText === 'DEC' || date.lowerText === 'JAN') {
+            Draw.createUpperDate(date, calendarLayer);
+          }
           break;
       }
     }

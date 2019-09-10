@@ -10,8 +10,29 @@
   --gantt-container-height: 100%;
 }
 
+@font-face {
+  font-family: "Selawik";
+  src: url('/assets/fonts/selawk.ttf');
+}
+
+@font-face {
+  font-family: "Selawik Semibold";
+  src: url('/assets/fonts/selawksb.ttf');
+}
+@font-face {
+  font-family: "Selawik Bold";
+  src: url('/assets/fonts/selawkb.ttf');
+}
+
+@font-face {
+  font-family: "Selawik Semilight";
+  src: url('/assets/fonts/selawksl.ttf');
+}
+
+
 .gantt .grid-background {
   fill: none;
+  font-family: 'Selawik';
 }
 
 .gantt .grid-header {
@@ -31,6 +52,7 @@
   stroke: #F06C6C;
   dominant-baseline: central;
   text-anchor: middle;
+  font-family: 'Selawik';
 }
 
 .gantt .task-name {
@@ -38,6 +60,7 @@
   stroke: #000000;
   dominant-baseline: central;
   text-anchor: middle;
+  font-family: 'Selawik';
 }
 
 .gantt .grid-row {
@@ -152,6 +175,7 @@
   text-anchor: middle;
   font-size: 12px;
   font-weight: lighter;
+  font-family: 'Selawik';
 }
 
 .gantt .bar-label.big {
@@ -162,6 +186,7 @@
 .gantt .bar-label-progress {
   font-weight: 800;
   font-size: 12px;
+  font-family: 'Selawik';
 }
 
 .gantt .year-context {
@@ -222,6 +247,7 @@
 
 .gantt .lower-text, .gantt .upper-text {
   font-size: 13px;
+  font-family: 'Selawik';
 }
 
 .gantt .upper-text {
@@ -231,6 +257,7 @@
 .gantt .lower-text {
   fill: #333;
   text-anchor: middle;
+  font-family: 'Selawik';
 }
 
 .gantt .hide {
@@ -254,6 +281,7 @@
   padding: 0;
   color: white;
   font-style: oblique;
+  font-family: 'Selawik';
   border-radius: 3px;
 }
 
@@ -289,6 +317,7 @@
   padding: 10px;
   color: #000000;
   font-weight: lighter;
+  font-family: 'Selawik';
 }
 
 .gantt-container .popup-wrapper-color .pointer {
@@ -338,6 +367,7 @@
 .gantt-container .task-overdue .title {
   color: white;
   font-weight: bold;
+  font-family: 'Selawik';
 }
 
 .gantt-container .task-overdue .pointer {
@@ -425,6 +455,7 @@
   stroke: #000000;
   dominant-baseline: central;
   text-anchor: middle;
+  font-family: 'Selawik';
 }
 
 .gantt .circle {

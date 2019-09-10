@@ -76,7 +76,7 @@ export class Filter {
 
     // attributes for label
     const labelPosX = this.chartOptions.startPosition / 2;
-    const labelPosY = yCoords + (layerHeight / 2) - margin * 2;
+    const labelPosY = yCoords + (layerHeight / 2) - margin;
     this.drawLabel(labelPosX, labelPosY, optionLabel, layer);
 
     // attributes for circle
