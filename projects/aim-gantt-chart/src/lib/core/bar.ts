@@ -248,6 +248,10 @@ export class Bar {
       });
 
     });
+
+    on(this.group, 'mouseout ', e => {
+      this.popup.hide();
+    });
   }
 
   addStyleForPopup() {
