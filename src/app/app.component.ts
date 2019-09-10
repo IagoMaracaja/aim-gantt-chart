@@ -9,9 +9,9 @@ export class AppComponent {
 
   private ganttTarget = '.gantt-chart-target';
   private options = {
-    view_mode: 'Week',
+    viewMode: 'Day',
     language: 'en',
-    project_overview: true
+    projectOverview: false
   };
 
   getMocked2() {
@@ -49,7 +49,7 @@ export class AppComponent {
         ]
       }, {
         start: '2019-09-01',
-        end: '2019-09-11',
+        end: '2019-09-20',
         name: 'Stabilise Project',
         id: 'TaskModel 3',
         progress: 79,
@@ -62,7 +62,7 @@ export class AppComponent {
             end: '2019-09-15',
             name: 'Stabilise Tasks',
             id: 'TaskModel 4',
-            progress: 33,
+            progress: 66,
             showOnGraph: true,
             level: 1,
             overdue: false
@@ -72,7 +72,7 @@ export class AppComponent {
             end: '2019-09-15',
             name: 'Great Task',
             id: 'TaskModel 5',
-            progress: 100,
+            progress: 0,
             level: 2,
             overdue: false,
             showOnGraph: true,
@@ -82,7 +82,7 @@ export class AppComponent {
             end: '2019-09-13',
             name: 'Amazing Task',
             id: 'TaskModel 6',
-            progress: 80,
+            progress: 0,
             level: 3,
             overdue: false,
             showOnGraph: true,
