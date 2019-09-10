@@ -120,46 +120,6 @@ export class GanttBusiness {
     return gantt;
   }
 
-  static setupGanttDates(gantt: Gantt, tasks: TaskModel[], options: GanttOptions) {
-    for (const task of tasks) {
-      // set global start and end date
-      if (!gantt.start || task.start < gantt.start) {
-        gantt.start = new Date(task.start);
-      }
-      if (!gantt.end || task.end > gantt.end) {
-        gantt.end = new Date(task.end);
-      }
-    }
-
-    gantt.start = startOf(gantt.start, Scale.Day);
-    gantt.end = startOf(gantt.end, Scale.Day);
-    // add date padding on both sides
-    if (options.viewMode === ViewMode.QuarterDay
-      || options.viewMode === ViewMode.HalfDay) {
-      gantt.start = addDate(gantt.start, -7, Scale.Day);
-      gantt.end = addDate(gantt.end, 7, Scale.Day);
-    } else if (options.viewMode === ViewMode.Month) {
-      gantt.start = startOf(gantt.start, Scale.Year);
-      gantt.end = addDate(gantt.end, 18, Scale.Month);
-    } else if (options.viewMode === ViewMode.Year) {
-      gantt.start = addDate(gantt.start, -2, Scale.Year);
-      gantt.end = addDate(gantt.end, 2, Scale.Year);
-    } else if (options.viewMode === ViewMode.Week) {
-      gantt.start = addDate(gantt.start, -20, Scale.Day);
-      gantt.end = addDate(gantt.end, 2, Scale.Month);
-    } else {
-      let qtDayBefore = -2;
-      let qtDayAfter = 5;
-      if (diffBetweenDates(gantt.end, gantt.start, Scale.Day) < 30) {
-        qtDayBefore = -5;
-        qtDayAfter = 35;
-      }
-      gantt.start = addDate(gantt.start, qtDayBefore, Scale.Day);
-      gantt.end = addDate(gantt.end, qtDayAfter, Scale.Day);
-    }
-    return gantt;
-  }
-
   render(svg: SVGAElement, options: GanttOptions, chartOptions: ChartOptions,
          gantt: Gantt, ganttComponent: GanttChartComponent) {
     GanttBusiness.clear(svg, options);

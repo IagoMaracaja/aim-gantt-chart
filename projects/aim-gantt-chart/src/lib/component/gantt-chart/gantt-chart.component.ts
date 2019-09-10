@@ -215,7 +215,7 @@ export class GanttChartComponent implements OnInit {
       this.changeViewMode(viewMode);
     }
   }
-  
+
   updateViewScale(viewMode) {
     this.options.viewMode = viewMode;
     const hoursOfDay = 24;
@@ -242,7 +242,6 @@ export class GanttChartComponent implements OnInit {
 
   setupDates() {
     this.clearDates();
-    // this.gantt = GanttBusiness.setupGanttDates(this.gantt, this.tasks, this.options);
     this.gantt = GanttBusiness.getGanttDates(this.gantt, this.tasks, this.options);
     this.chartOptions.calendar = GanttBusiness.setupDateValues(this.gantt, this.options);
   }
