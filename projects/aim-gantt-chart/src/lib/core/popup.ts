@@ -59,7 +59,7 @@ export class Popup {
 
       this.pointer.style.transform = 'rotateZ(90deg)';
       this.pointer.style.left = '-7px';
-      this.pointer.style.top = '2px';
+      this.pointer.style.top = '10px';
     }
 
     // show
