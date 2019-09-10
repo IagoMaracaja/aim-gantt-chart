@@ -70,12 +70,13 @@ export class Filter {
     // attributes for checkbox
     const cornerRadius = 5;
     const margin = 2;
+    const marginLabel = 15;
     const checkboxProp = layerHeight - 2 * margin; // Width and Height
     const xCoords = this.chartOptions.startPosition / 4;
     this.drawCheckbox(xCoords, yCoords, cornerRadius, checkboxProp, layer, index);
 
     // attributes for label
-    const labelPosX = this.chartOptions.startPosition / 2;
+    const labelPosX = this.chartOptions.startPosition / 2 - marginLabel;
     const labelPosY = yCoords + (layerHeight / 2) - margin;
     this.drawLabel(labelPosX, labelPosY, optionLabel, layer);
 
