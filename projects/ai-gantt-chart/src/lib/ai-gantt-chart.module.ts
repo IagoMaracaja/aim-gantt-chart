@@ -10,5 +10,5 @@ import {Draw} from './core/draw';
   exports: [GanttChartComponent],
   providers: [GanttBusiness, GridMaker, Draw]
 })
-export class AimGanttChartModule {
+export class AiGanttChartModule {
 }

@@ -10,7 +10,8 @@ import {TaskModel} from '../../models/task.models';
 import {ChartOptions} from '../../models/chartOptions.models';
 
 @Component({
-  selector: 'gc-gantt-chart',
+  // tslint:disable-next-line:component-selector
+  selector: 'ai-gantt-chart',
   templateUrl: './gantt-chart.component.html',
   styleUrls: ['./gantt-chart.component.css']
 })

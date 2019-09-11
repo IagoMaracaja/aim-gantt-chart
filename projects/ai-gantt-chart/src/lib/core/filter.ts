@@ -87,8 +87,6 @@ export class Filter {
       this.drawCircle(circleX, circleY, layer);
     }
 
-    // this.drawCircle(circleX, circleY, layer);
-
   }
 
   drawCheckbox(xCoords, yCoords, cornerRadius, checkboxProp, layer, index) {

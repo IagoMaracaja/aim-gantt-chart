@@ -3,7 +3,7 @@
 
 module.exports = function (config) {
   config.set({
-    basePath: '',
+    basePath: '../ai-gantt-chart',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
@@ -16,7 +16,7 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, '../../coverage/aim-gantt-chart'),
+      dir: require('path').join(__dirname, '../../coverage/ai-gantt-chart'),
       reports: ['html', 'lcovonly'],
       fixWebpackSourcePaths: true
     },

@@ -20,11 +20,11 @@
       "es5"
     ],
     "paths": {
-      "aim-gantt-chart": [
-        "dist/aim-gantt-chart"
+      "ai-gantt-chart": [
+        "dist/ai-gantt-chart"
       ],
-      "aim-gantt-chart/*": [
-        "dist/aim-gantt-chart/*"
+      "ai-gantt-chart/*": [
+        "dist/ai-gantt-chart/*"
       ]
     },
     "allowSyntheticDefaultImports": true

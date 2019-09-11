@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {AimGanttChartModule} from '../../projects/aim-gantt-chart/src/lib/aim-gantt-chart.module';
+import {AiGanttChartModule} from '../../projects/ai-gantt-chart/src/lib/ai-gantt-chart.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +10,7 @@ import {AimGanttChartModule} from '../../projects/aim-gantt-chart/src/lib/aim-ga
   ],
   imports: [
     BrowserModule,
-    AimGanttChartModule
+    AiGanttChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
