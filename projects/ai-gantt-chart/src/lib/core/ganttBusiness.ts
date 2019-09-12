@@ -100,7 +100,6 @@ export class GanttBusiness {
     for (const task of tasks) {
       const startTaskDate = new Date(task.start);
       const endTaskDate = new Date(task.end);
-      console.log('StartTaskDate -> ', startTaskDate);
 
       if (!start) {
         start = startTaskDate;

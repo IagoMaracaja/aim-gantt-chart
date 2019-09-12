@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {createSVG} from '../../utils/svg-utils';
 import {Language, Options, Scale, ViewMode} from '../../utils/enums';
 import {addDate, diffBetweenDates, getDateValues, getToday, parseDate} from '../../utils/date-utils';
@@ -40,6 +40,7 @@ export class GanttChartComponent implements OnInit {
       this.changeViewMode(this.options.viewMode);
     }
   }
+
 
   updateTasks(tasks) {
     this.setupTasks(tasks);
