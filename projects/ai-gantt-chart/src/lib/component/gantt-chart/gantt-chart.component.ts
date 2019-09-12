@@ -41,6 +41,11 @@ export class GanttChartComponent implements OnInit {
     }
   }
 
+  updateTasks(tasks) {
+    this.setupTasks(tasks);
+    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt, this);
+  }
+
   setupWrapper(element) {
     let svgElement;
 
@@ -210,7 +215,6 @@ export class GanttChartComponent implements OnInit {
   }
 
   refreshByFilter(viewMode) {
-    // this.hide_popup();
     if (this.chartOptions.allTasks) {
       this.setupTasks(this.chartOptions.allTasks);
       this.changeViewMode(viewMode);

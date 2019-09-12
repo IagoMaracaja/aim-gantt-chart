@@ -1,4 +1,4 @@
-import {attr, createHTMLFromString, createSVG} from '../utils/svg-utils';
+import {createSVG} from '../utils/svg-utils';
 import {ChartOptions} from '../models/chartOptions.models';
 import {diffBetweenDates, getDatesToDraw, getOldestStartingDate, getToday} from '../utils/date-utils';
 import {GanttOptions} from '../models/ganttOptions.models';

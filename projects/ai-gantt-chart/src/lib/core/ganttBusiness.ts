@@ -14,8 +14,6 @@ import {GanttChartComponent} from '../component/gantt-chart/gantt-chart.componen
   providedIn: 'root',
 })
 export class GanttBusiness {
-  /*  private options: GanttOptions;
-    private chartOptions: ChartOptions;*/
 
   constructor(public gridMaker: GridMaker, public draw: Draw) {
   }
@@ -80,15 +78,15 @@ export class GanttBusiness {
     switch (options.viewMode) {
       case ViewMode.Day:
         beforeDays = diffBetweenDays < 30 ? -5 : -1;
-        afterDays = diffBetweenDays < 15 ? 30 : 10;
+        afterDays = diffBetweenDays < 15 ? 50 : 10;
         break;
       case ViewMode.Week:
         beforeDays = diffBetweenDays < 30 ? -15 : -7;
-        afterDays = diffBetweenDays < 30 ? 120 : 30;
+        afterDays = diffBetweenDays < 30 ? 150 : 30;
         break;
       case ViewMode.Month:
-        beforeDays = diffBetweenDays < 30 ? -90 : -30;
-        afterDays = diffBetweenDays < 30 ? 730 : 365;
+        beforeDays = diffBetweenDays < 30 ? -100 : -30;
+        afterDays = diffBetweenDays < 30 ? 830 : 800;
         break;
     }
     gantt.start = addDaysToDate(gantt.start, beforeDays);
@@ -102,6 +100,7 @@ export class GanttBusiness {
     for (const task of tasks) {
       const startTaskDate = new Date(task.start);
       const endTaskDate = new Date(task.end);
+      console.log('StartTaskDate -> ', startTaskDate);
 
       if (!start) {
         start = startTaskDate;
