@@ -82,7 +82,7 @@ export class GanttBusiness {
         break;
       case ViewMode.Week:
         beforeDays = diffBetweenDays < 30 ? -15 : -7;
-        afterDays = diffBetweenDays < 30 ? 150 : 30;
+        afterDays = diffBetweenDays < 30 ? 180 : 90;
         break;
       case ViewMode.Month:
         beforeDays = diffBetweenDays < 30 ? -100 : -30;

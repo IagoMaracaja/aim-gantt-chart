@@ -61,6 +61,7 @@ export class GanttChartComponent implements OnInit {
       svgElement = element.querySelector('svg');
     } else if (element instanceof SVGElement) {
       svgElement = element;
+      console.log('SvgElement -> ', svgElement);
     } else {
       throw new TypeError(
         'Gantt only supports usage of a string CSS selector,' +
@@ -78,13 +79,14 @@ export class GanttChartComponent implements OnInit {
     } else {
       this.svg = svgElement;
       this.svg.classList.add('gantt');
+      console.log('Entrei aqui ');
     }
 
     // wrapper element
     this.container = document.createElement('div');
     this.container.classList.add('gantt-container');
 
-    const parentElement = document.getElementsByTagName('svg').item(0);
+    const parentElement = this.wrapperElement.getElementsByTagName('svg').item(0);
     this.wrapperElement.appendChild(this.container);
     this.container.appendChild(parentElement);
 
