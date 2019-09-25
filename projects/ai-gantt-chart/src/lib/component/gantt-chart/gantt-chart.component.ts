@@ -61,7 +61,6 @@ export class GanttChartComponent implements OnInit {
       svgElement = element.querySelector('svg');
     } else if (element instanceof SVGElement) {
       svgElement = element;
-      console.log('SvgElement -> ', svgElement);
     } else {
       throw new TypeError(
         'Gantt only supports usage of a string CSS selector,' +
@@ -79,7 +78,6 @@ export class GanttChartComponent implements OnInit {
     } else {
       this.svg = svgElement;
       this.svg.classList.add('gantt');
-      console.log('Entrei aqui ');
     }
 
     // wrapper element

@@ -167,22 +167,23 @@ export class Bar {
     });
     const taskProgressSVG = createSVG('tspan', {
       append_to: this.barGroup,
-      innerHTML: ' ' + this.taskBar.task.progress + '%',
+      innerHTML: this.taskBar.task.progress + '%',
       class: 'bar-label-progress'
     });
     taskNameSVG.appendChild(taskProgressSVG);
     // labels get BBox in the next tick
-    requestAnimationFrame(() => this.updateLabelPosition());
+    this.updateLabelPosition();
   }
 
   updateLabelPosition() {
     const bar = this.bar;
-    const label = this.group.querySelector('.bar-label');
+    const label: SVGAElement = this.group.querySelector('.bar-label');
     if (this.taskBar.task.overdue) {
       this.showTooltipToBigBar(true);
     }
+    const labelWidth = this.calculateWidth(label.textContent, 12);
 
-    if (label.getBoundingClientRect().width > +bar.getAttribute('width')) {
+    if (labelWidth > +bar.getAttribute('width')) {
       this.addClass(label, 'big');
       this.showTooltipToBigBar(false);
       this.barGroup.removeChild(label);
@@ -195,6 +196,15 @@ export class Bar {
       const newQualifiedX = currentX + (currentWidth / 2);
       label.setAttribute('x', String(newQualifiedX));
     }
+  }
+
+  calculateWidth(text, fontSize) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    context.font = fontSize + 'px ' ;
+    return context.measureText(text).width;
+
   }
 
   addClass(ele, cls) {
@@ -310,11 +320,11 @@ export class Bar {
     });
     createSVG('tspan', {
       append_to: textSVG,
-      innerHTML: ' ' + this.taskBar.task.progress + '%',
+      innerHTML: this.taskBar.task.progress + '%',
       class: 'bar-label-progress'
     });
     // labels get BBox in the next tick
-    requestAnimationFrame(() => this.updateLabelPosition());
+    this.updateLabelPosition();
   }
 
   triggerEvent(event, args) {
