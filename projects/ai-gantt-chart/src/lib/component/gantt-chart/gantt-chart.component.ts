@@ -116,7 +116,8 @@ export class GanttChartComponent implements OnInit {
       dateFormat: Options.DateFormat,
       popupTrigger: Options.PopupTrigger,
       language: Language.English,
-      projectOverview: false
+      projectOverview: false,
+      makeFilter: true
     };
     this.options = {...defaultOptions, ...options};
   }

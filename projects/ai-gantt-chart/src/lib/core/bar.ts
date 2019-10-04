@@ -323,8 +323,6 @@ export class Bar {
       innerHTML: this.taskBar.task.progress + '%',
       class: 'bar-label-progress'
     });
-    // labels get BBox in the next tick
-    this.updateLabelPosition();
   }
 
   triggerEvent(event, args) {

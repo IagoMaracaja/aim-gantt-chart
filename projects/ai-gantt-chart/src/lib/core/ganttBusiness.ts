@@ -129,10 +129,10 @@ export class GanttBusiness {
     this.draw.drawBars(chartOptions, options, gantt, svg);
     this.draw.setWidth(svg);
 
-    this.draw.setScrollPosition(chartOptions, svg, gantt, options);
+    // this.draw.setScrollPosition(chartOptions, svg, gantt, options);
 
 
-    if (!options.projectOverview) {
+    if (!options.projectOverview && options.makeFilter) {
       this.draw.makeFilter(chartOptions, gantt, options, ganttComponent);
     }
     if (

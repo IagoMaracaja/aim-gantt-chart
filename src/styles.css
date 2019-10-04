@@ -269,7 +269,8 @@
   overflow-x: scroll;
   overflow-y: scroll;
   font-size: 12px;
-  height: 100%;
+  height: 500px;
+  /*height: 100%;*/
   /*width: var(--gantt-container-width);*/
 }
 
