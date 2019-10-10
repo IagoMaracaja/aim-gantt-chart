@@ -1,4 +1,4 @@
-import {addDate, addDaysToDate, diffBetweenDates, startOf} from '../utils/date-utils';
+import {addDate, addDaysToDate, diffBetweenDates} from '../utils/date-utils';
 import {Scale, ViewMode} from '../utils/enums';
 import {GanttOptions} from '../models/ganttOptions.models';
 import {createHTMLFromString, createSVG} from '../utils/svg-utils';
@@ -75,6 +75,7 @@ export class GanttBusiness {
     let beforeDays;
     let afterDays;
     const diffBetweenDays = diffBetweenDates(gantt.end, gantt.start);
+
     switch (options.viewMode) {
       case ViewMode.Day:
         beforeDays = diffBetweenDays < 30 ? -5 : -1;
@@ -98,8 +99,8 @@ export class GanttBusiness {
     let start;
     let end;
     for (const task of tasks) {
-      const startTaskDate = new Date(task.start);
-      const endTaskDate = new Date(task.end);
+      const startTaskDate = new Date(task.start + 'T00:00:00');
+      const endTaskDate = new Date(task.end + 'T00:00:00');
 
       if (!start) {
         start = startTaskDate;

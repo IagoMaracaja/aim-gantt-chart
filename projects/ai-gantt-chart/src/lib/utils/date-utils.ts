@@ -52,7 +52,7 @@ export function parseDate(date) {
   if (date instanceof Date) {
     return date;
   } else {
-    return new Date(date);
+    return new Date(date + 'T00:00:00');
   }
 }
 

@@ -176,12 +176,6 @@ export class GanttChartComponent implements OnInit {
       if (task.start && !task.end) {
         task.end = addDate(task.start, 2, Scale.Day);
       }
-      // if hours is not set, assume the last day is full day
-      // e.g: 2018-09-09 becomes 2018-09-09 23:59:59
-      const taskEndValues = getDateValues(task.end);
-      if (taskEndValues.slice(3).every(d => d === 0)) {
-        task.end = addDate(task.end, 24, Scale.Hour);
-      }
       // invalid flag
       if (!task.start || !task.end) {
         task.invalid = true;

@@ -161,13 +161,16 @@ export class Bar {
       append_to: this.barGroup,
       class: 'bar-label'
     });
+    const taskBarName = this.taskBar.task.name.concat(' ');
+    const taskBarProgress = '[' + this.taskBar.task.progress + '%]';
+
     const taskNameSVG = createSVG('tspan', {
       append_to: textSVG,
-      innerHTML: this.taskBar.task.name
+      innerHTML: taskBarName
     });
     const taskProgressSVG = createSVG('tspan', {
       append_to: this.barGroup,
-      innerHTML: this.taskBar.task.progress + '%',
+      innerHTML: taskBarProgress,
       class: 'bar-label-progress'
     });
     taskNameSVG.appendChild(taskProgressSVG);
@@ -202,7 +205,7 @@ export class Bar {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
 
-    context.font = fontSize + 'px ' ;
+    context.font = fontSize + 'px ';
     return context.measureText(text).width;
 
   }
@@ -244,16 +247,16 @@ export class Bar {
       // this.group.classList.toggle('active');
 
       this.addStyleForPopup();
-      let title = '';
+      let popupTitle = '';
       if (overdue) {
-        title = 100 - this.taskBar.task.progress + '% overdue';
+        popupTitle = 100 - this.taskBar.task.progress + '% overdue';
       } else {
-        title = this.taskBar.task.name;
+        popupTitle = this.taskBar.task.name;
       }
 
       this.show_popup({
         target_element: this.bar,
-        title,
+        title: popupTitle,
         task: this.taskBar.task
       });
 
@@ -261,6 +264,7 @@ export class Bar {
 
     on(this.group, 'mouseout ', e => {
       this.popup.hide();
+      this.popup = null;
     });
   }
 
@@ -275,23 +279,6 @@ export class Bar {
     }
     this.options.popupWrapper.classList.add(this.getPopupClassByTaskLevel());
 
-  }
-
-  setupClickEventPopup() {
-    const startDate = format(this.taskBar.task.start, 'MMM D', this.options.language);
-    const endDate = format(
-      addDate(this.taskBar.task.end, -1, Scale.Second),
-      'MMM D',
-      this.options.language
-    );
-    const subtitle = startDate + ' - ' + endDate;
-
-    this.show_popup({
-      target_element: this.bar,
-      title: this.taskBar.task.name,
-      subtitle,
-      task: this.taskBar.task
-    });
   }
 
   show_popup(options) {

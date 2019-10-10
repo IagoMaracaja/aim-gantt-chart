@@ -168,7 +168,7 @@ export class AppComponent {
       }, {
         start: '2019-09-01',
         end: '2019-09-20',
-        name: 'Stabilise Project',
+        name: 'Stabilise Project 2 -',
         id: 'TaskModel 3',
         progress: 79,
         level: 0,
@@ -178,7 +178,7 @@ export class AppComponent {
           {
             start: '2019-09-05',
             end: '2019-09-15',
-            name: 'Stabilise Tasks',
+            name: 'Stabilise Tasks 2 -',
             id: 'TaskModel 4',
             progress: 66,
             showOnGraph: true,
@@ -188,7 +188,7 @@ export class AppComponent {
           {
             start: '2019-09-12',
             end: '2019-09-15',
-            name: 'Great Task',
+            name: 'Great Task 2 -',
             id: 'TaskModel 5',
             progress: 0,
             level: 2,
@@ -198,7 +198,7 @@ export class AppComponent {
           {
             start: '2019-09-12',
             end: '2019-09-13',
-            name: 'Amazing Task',
+            name: 'Amazing Task 2 -',
             id: 'TaskModel 6',
             progress: 0,
             level: 3,
@@ -209,7 +209,7 @@ export class AppComponent {
       }, {
         start: '2019-09-01',
         end: '2019-09-20',
-        name: 'Stabilise Project',
+        name: 'Stabilise Project 3 -',
         id: 'TaskModel 3',
         progress: 79,
         level: 0,
@@ -217,9 +217,9 @@ export class AppComponent {
         showOnGraph: true,
         taskList: [
           {
-            start: '2019-09-05',
+            start: '2019-09-06',
             end: '2019-09-15',
-            name: 'Stabilise Tasks',
+            name: 'Stabilise Tasks 3 -',
             id: 'TaskModel 4',
             progress: 66,
             showOnGraph: true,
@@ -229,7 +229,7 @@ export class AppComponent {
           {
             start: '2019-09-12',
             end: '2019-09-15',
-            name: 'Great Task',
+            name: 'Great Task 3 -',
             id: 'TaskModel 5',
             progress: 0,
             level: 2,
@@ -239,7 +239,7 @@ export class AppComponent {
           {
             start: '2019-09-12',
             end: '2019-09-13',
-            name: 'Amazing Task',
+            name: 'Amazing Task 3 -',
             id: 'TaskModel 6',
             progress: 0,
             level: 3,
@@ -250,7 +250,7 @@ export class AppComponent {
       }, {
         start: '2019-09-01',
         end: '2019-09-20',
-        name: 'Stabilise Project',
+        name: 'Stabilise Project 3 -',
         id: 'TaskModel 3',
         progress: 79,
         level: 0,
@@ -260,7 +260,7 @@ export class AppComponent {
           {
             start: '2019-09-05',
             end: '2019-09-15',
-            name: 'Stabilise Tasks',
+            name: 'Stabilise Tasks 3 -',
             id: 'TaskModel 4',
             progress: 66,
             showOnGraph: true,
@@ -270,7 +270,7 @@ export class AppComponent {
           {
             start: '2019-09-12',
             end: '2019-09-15',
-            name: 'Great Task',
+            name: 'Great Task 3 -',
             id: 'TaskModel 5',
             progress: 0,
             level: 2,
@@ -280,7 +280,7 @@ export class AppComponent {
           {
             start: '2019-09-12',
             end: '2019-09-13',
-            name: 'Amazing Task',
+            name: 'Amazing Task 3 -',
             id: 'TaskModel 6',
             progress: 0,
             level: 3,

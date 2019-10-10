@@ -113,7 +113,7 @@ export class Draw {
 
 
   drawDates(chartOptions: ChartOptions, options: GanttOptions) {
-    let monthPlottedNames = [];
+    const monthPlottedNames = [];
     const calendarLayer = createSVG('g', {
       x: chartOptions.dateStartPosition,
       y: 0,
