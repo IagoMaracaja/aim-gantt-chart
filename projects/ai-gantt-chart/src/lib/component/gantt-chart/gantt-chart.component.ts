@@ -147,7 +147,6 @@ export class GanttChartComponent implements OnInit {
       }
       allTasks.push.apply(allTasks, array);
     }
-
     // prepare tasks
     this.chartOptions.tasks = allTasks.map((task, i) => {
       // convert to Date objects
@@ -243,7 +242,7 @@ export class GanttChartComponent implements OnInit {
 
   setupDates() {
     this.clearDates();
-    this.gantt = GanttBusiness.getGanttDates(this.gantt, this.tasks, this.options);
+    this.gantt = GanttBusiness.getGanttDates(this.gantt, this.chartOptions.allTasks, this.options);
     this.chartOptions.calendar = GanttBusiness.setupDateValues(this.gantt, this.options);
   }
 

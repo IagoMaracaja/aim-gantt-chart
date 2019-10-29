@@ -1,4 +1,4 @@
-import {addDate, addDaysToDate, diffBetweenDates} from '../utils/date-utils';
+import {addDate, addDaysToDate, diffBetweenDates, parseDate} from '../utils/date-utils';
 import {Scale, ViewMode} from '../utils/enums';
 import {GanttOptions} from '../models/ganttOptions.models';
 import {createHTMLFromString, createSVG} from '../utils/svg-utils';
@@ -92,6 +92,7 @@ export class GanttBusiness {
     }
     gantt.start = addDaysToDate(gantt.start, beforeDays);
     gantt.end = addDaysToDate(gantt.end, afterDays);
+
     return gantt;
   }
 
@@ -99,8 +100,9 @@ export class GanttBusiness {
     let start;
     let end;
     for (const task of tasks) {
-      const startTaskDate = new Date(task.start + 'T00:00:00');
-      const endTaskDate = new Date(task.end + 'T00:00:00');
+      // 'T00:00:00' below fix some problems with TimeZone
+      const startTaskDate = parseDate(task.start);
+      const endTaskDate = parseDate(task.end);
 
       if (!start) {
         start = startTaskDate;

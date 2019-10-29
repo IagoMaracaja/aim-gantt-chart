@@ -9,9 +9,9 @@ export class AppComponent {
 
   private ganttTarget = '.gantt-chart-target';
   private options = {
-    viewMode: 'Day',
+    viewMode: 'Month',
     language: 'en',
-    projectOverview: false
+    projectOverview: true
   };
 
   getMocked2() {
