@@ -8,6 +8,7 @@ import {GanttBusiness} from '../../core/ganttBusiness';
 import {Gantt} from '../../models/gantt.models';
 import {TaskModel} from '../../models/task.models';
 import {ChartOptions} from '../../models/chartOptions.models';
+import {Draw} from '../../core/draw';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -27,20 +28,29 @@ export class GanttChartComponent implements OnInit {
 
   private wrapperElement;
 
-  constructor(public ganttBusiness: GanttBusiness) {
+  constructor(public ganttBusiness: GanttBusiness, public draw: Draw) {
   }
 
   ngOnInit() {
-    if (this.tasks) {
+    if (this.tasks.length > 0) {
       this.setupWrapper(this.wrapper);
       this.setupOptions(this.options);
       this.initValues();
+      console.log('[NgOnInit] this.tasks-> ', this.tasks);
       this.setupTasks(this.tasks);
 
       this.changeViewMode(this.options.viewMode);
+    } else {
+      const element = document.querySelector(this.wrapper);
+      this.svg = createSVG('svg', {
+        append_to: element,
+        width: element.clientWidth,
+        height: 100,
+        class: 'gantt'
+      });
+      this.draw.drawEmptyTaskMessage('There is no task to show', this.svg);
     }
   }
-
 
   updateTasks(tasks) {
     this.setupTasks(tasks);
@@ -138,21 +148,12 @@ export class GanttChartComponent implements OnInit {
 
   setupTasks(tasks) {
     this.chartOptions.allTasks = tasks;
-    const allTasks = [];
-    for (const tsk of tasks) {
-      this.chartOptions.taskLevelOneQty += 1;
-      const array = tsk.taskList;
-      if (this.options.projectOverview) {
-        array.splice(0, 0, tsk);
-      }
-      allTasks.push.apply(allTasks, array);
-    }
+    const allTasks = this.getAllTasks(tasks);
     // prepare tasks
     this.chartOptions.tasks = allTasks.map((task, i) => {
       // convert to Date objects
       task.start = parseDate(task.start);
       task.end = parseDate(task.end);
-
       // make task invalid if duration too large
       if (diffBetweenDates(task.end, task.start, Scale.Year) > 10) {
         task.end = null;
@@ -194,10 +195,40 @@ export class GanttChartComponent implements OnInit {
       if (!task.id) {
         task.id = generateId(task);
       }
-
       return task;
     });
 
+  }
+
+  getAllTasksOld(tasks) {
+    const allTasks = [];
+    for (const tsk of tasks) {
+      this.chartOptions.taskLevelOneQty += 1;
+      const array = tsk.taskList;
+      if (this.options.projectOverview) {
+        array.splice(0, 0, tsk);
+      }
+      allTasks.push.apply(allTasks, array);
+    }
+    return allTasks;
+  }
+
+  getAllTasks(tasks) {
+    const allTasks = [];
+    for (const projects of tasks) {
+      if (this.options.projectOverview) {
+        allTasks.splice(0, 0, projects); // add the task Level 0
+      }
+      for (const tsk of projects.taskList) {
+        this.chartOptions.taskLevelOneQty += 1;
+        const array = tsk.taskList;
+        if (array.indexOf(tsk) === -1) {
+          array.splice(0, 0, tsk); // add the task level 1
+        }
+        allTasks.push.apply(allTasks, array);
+      }
+    }
+    return allTasks;
   }
 
   changeViewMode(mode) {

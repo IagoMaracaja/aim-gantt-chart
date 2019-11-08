@@ -76,13 +76,19 @@ export class Bar {
     const taskStart = this.taskBar.task.start;
     const ganttStart = this.gantt.start;
 
-    const diff = diffBetweenDates(taskStart, ganttStart, Scale.Hour);
-    let x = diff / step * columnWidth;
+    const diffInHours = diffBetweenDates(taskStart, ganttStart, Scale.Hour);
+    let x = diffInHours / step * columnWidth;
 
     if (this.options.viewMode === ViewMode.Month) {
       // tslint:disable-next-line:no-shadowed-variable
-      const diff = diffBetweenDates(taskStart, ganttStart, Scale.Day);
-      x = diff * columnWidth / 30;
+
+      // Get the difference between task and gantt in day Scale
+      let diffInDays = diffBetweenDates(taskStart, ganttStart, Scale.Day);
+      // When is Month viewMode, the month current day is disregarded because the Month is fully plotted on the graph
+      // So, we need to add in sum the number of the days from the first day of month
+      diffInDays += ganttStart.getDate();
+      // When we have that difference, we multiply this value by day width (total of column width divided by 30)
+      x = diffInDays * (columnWidth / 30);
     }
     return x;
   }
@@ -263,7 +269,10 @@ export class Bar {
     });
 
     on(this.group, 'mouseout ', e => {
-      this.popup.hide();
+      if (this.popup) {
+        this.popup.hide();
+      }
+
       this.popup = null;
     });
   }

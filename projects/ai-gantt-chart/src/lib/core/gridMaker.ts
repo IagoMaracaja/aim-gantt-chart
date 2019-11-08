@@ -85,33 +85,35 @@ export class GridMaker {
     const lineRowWidth = rowWidth + this.chartOptions.startPosition;
 
     let rowY = this.options.headerHeight;
-    for (const tsk of this.chartOptions.allTasks) {
-      let pos = 0;
-      let lineClass = 'row-line';
-      for (const task of tsk.taskList) {
-        createSVG('rect', {
-          x: this.chartOptions.startPosition,
-          y: rowY,
-          width: rowWidth,
-          height: rowHeight,
-          class: 'grid-row',
-          append_to: rowsLayer
-        });
+    for (const project of this.chartOptions.allTasks) {
+      for (const tsk of project.taskList) {
+        let pos = 0;
+        let lineClass = 'row-line';
+        for (const task of tsk.taskList) {
+          createSVG('rect', {
+            x: this.chartOptions.startPosition,
+            y: rowY,
+            width: rowWidth,
+            height: rowHeight,
+            class: 'grid-row',
+            append_to: rowsLayer
+          });
 
-        if (pos === tsk.taskList.length - 1) {
-          lineClass = 'last-row-line';
+          if (pos === tsk.taskList.length - 1 && !this.options.projectOverview) {
+            lineClass = 'last-row-line';
+          }
+
+          createSVG('line', {
+            x1: this.chartOptions.startPosition,
+            y1: rowY + rowHeight,
+            x2: lineRowWidth,
+            y2: rowY + rowHeight,
+            class: lineClass,
+            append_to: linesLayer
+          });
+          pos++;
+          rowY += rowHeight;
         }
-
-        createSVG('line', {
-          x1: this.chartOptions.startPosition,
-          y1: rowY + rowHeight,
-          x2: lineRowWidth,
-          y2: rowY + rowHeight,
-          class: lineClass,
-          append_to: linesLayer
-        });
-        pos++;
-        rowY += rowHeight;
       }
     }
   }

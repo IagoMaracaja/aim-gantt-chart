@@ -78,16 +78,16 @@ export class GanttBusiness {
 
     switch (options.viewMode) {
       case ViewMode.Day:
-        beforeDays = diffBetweenDays < 30 ? -5 : -1;
-        afterDays = diffBetweenDays < 15 ? 50 : 10;
+        beforeDays = diffBetweenDays <= 30 ? -5 : -1;
+        afterDays = diffBetweenDays <= 15 ? 40 : 10;
         break;
       case ViewMode.Week:
-        beforeDays = diffBetweenDays < 30 ? -15 : -7;
-        afterDays = diffBetweenDays < 30 ? 180 : 90;
+        beforeDays = diffBetweenDays <= 30 ? -15 : -7;
+        afterDays = diffBetweenDays <= 30 ? 180 : 90;
         break;
       case ViewMode.Month:
-        beforeDays = diffBetweenDays < 30 ? -100 : -30;
-        afterDays = diffBetweenDays < 30 ? 830 : 800;
+        beforeDays = diffBetweenDays <= 30 ? -100 : -30;
+        afterDays = diffBetweenDays <= 30 ? 830 : 800;
         break;
     }
     gantt.start = addDaysToDate(gantt.start, beforeDays);
@@ -100,10 +100,8 @@ export class GanttBusiness {
     let start;
     let end;
     for (const task of tasks) {
-      // 'T00:00:00' below fix some problems with TimeZone
-      const startTaskDate = parseDate(task.start);
-      const endTaskDate = parseDate(task.end);
-
+      const startTaskDate = new Date(task.start);
+      const endTaskDate = new Date(task.end);
       if (!start) {
         start = startTaskDate;
       } else {
@@ -118,6 +116,7 @@ export class GanttBusiness {
     }
     gantt.start = start;
     gantt.end = end;
+
     return gantt;
   }
 
