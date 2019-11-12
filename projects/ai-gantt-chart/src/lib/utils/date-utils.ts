@@ -90,6 +90,10 @@ export function diffBetweenDates(firstDate, secondDate, scale = Scale.Day.toStri
   );
 }
 
+export function daysBetweenDates(date1, date2) {
+  return (date1.getTime() - date2.getTime()) / (1000 * 3600 * 24);
+}
+
 export function startOf(date, scale) {
   date = new Date(date);
   const scores = {

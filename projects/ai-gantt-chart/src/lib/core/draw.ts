@@ -33,6 +33,7 @@ export class Draw {
       let newSVGHeight = options.headerHeight;
       let headerHeight = 0;
       for (const project of chartOptions.allTasks) {
+        newSVGHeight += (options.barHeight + options.padding * 2);
         for (const tsk of project.taskList) {
           headerHeight =
             (options.barHeight + options.padding * 2) *
@@ -162,7 +163,6 @@ export class Draw {
     chartOptions.bars = chartOptions.tasks.map(task => {
       if (task.showOnGraph) {
         const bar = new Bar(gantt, chartOptions, options, task, svg);
-        console.log('[drawBar] Bar -> ', bar);
         bar.createBars();
         if (bar.taskBar.x < 0) {
           const message = 'There are Task(s) that starts before the project start date.';

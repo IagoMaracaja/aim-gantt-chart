@@ -11,35 +11,8 @@ export class AppComponent {
   private options = {
     viewMode: 'Day',
     language: 'en',
-    projectOverview: true
+    projectOverview: false
   };
-
-  getMocked4() {
-    return [];
-  }
-
-  getMocked5() {
-    return [{
-      start: '2019-08-6',
-      end: '2019-08-20',
-      name: 'Refreshed Tasks',
-      id: 'TaskModel 1',
-      progress: 13,
-      showOnGraph: true,
-      level: 0,
-      overdue: true
-    },
-      {
-        start: '2019-08-8',
-        end: '2019-08-20',
-        name: 'Another Task',
-        id: 'TaskModel 2',
-        progress: 100,
-        level: 1,
-        overdue: true,
-        showOnGraph: true,
-      }];
-  }
 
   getMocked2() {
     return [
@@ -79,17 +52,6 @@ export class AppComponent {
                 name: 'Refreshed Tasks Lv 3',
                 id: 'TaskModel 3',
                 progress: 37,
-                showOnGraph: true,
-                level: 3,
-                overdue: true
-              }
-              ,
-              {
-                start: '2019-08-11',
-                end: '2019-08-15',
-                name: 'Refreshed Tasks Lv 4',
-                id: 'TaskModel 4',
-                progress: 43,
                 showOnGraph: true,
                 level: 3,
                 overdue: true

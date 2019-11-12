@@ -100,8 +100,13 @@ export class GanttBusiness {
     let start;
     let end;
     for (const task of tasks) {
-      const startTaskDate = new Date(task.start);
-      const endTaskDate = new Date(task.end);
+      let tz = 'T00:00:00';
+      if (task.start instanceof Date && task.end instanceof Date) {
+        tz = '';
+      }
+      const startTaskDate = new Date(task.start + tz);
+      const endTaskDate = new Date(task.end + tz);
+
       if (!start) {
         start = startTaskDate;
       } else {
@@ -114,6 +119,7 @@ export class GanttBusiness {
       }
 
     }
+
     gantt.start = start;
     gantt.end = end;
 

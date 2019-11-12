@@ -3,7 +3,7 @@ import {ChartOptions} from '../models/chartOptions.models';
 import {GanttOptions} from '../models/ganttOptions.models';
 import {TaskBar} from '../models/taskBar';
 import {animateSVG, createSVG, on} from '../utils/svg-utils';
-import {addDate, diffBetweenDates, format} from '../utils/date-utils';
+import {addDate, daysBetweenDates, diffBetweenDates, format} from '../utils/date-utils';
 import {Scale, ViewMode} from '../utils/enums';
 import {TaskModel} from '../models/task.models';
 import {Popup} from './popup';
@@ -78,6 +78,13 @@ export class Bar {
 
     const diffInHours = diffBetweenDates(taskStart, ganttStart, Scale.Hour);
     let x = diffInHours / step * columnWidth;
+
+    if (this.options.viewMode === ViewMode.Day) {
+      // Get the number of days between Task start and Gantt start
+      const difForDays = daysBetweenDates(taskStart, ganttStart);
+      x = difForDays * columnWidth;
+    }
+
 
     if (this.options.viewMode === ViewMode.Month) {
       // tslint:disable-next-line:no-shadowed-variable

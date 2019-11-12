@@ -36,7 +36,6 @@ export class GanttChartComponent implements OnInit {
       this.setupWrapper(this.wrapper);
       this.setupOptions(this.options);
       this.initValues();
-      console.log('[NgOnInit] this.tasks-> ', this.tasks);
       this.setupTasks(this.tasks);
 
       this.changeViewMode(this.options.viewMode);
