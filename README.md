@@ -138,11 +138,11 @@ return [
 ```
 
 ###### Task Model
-* start and end must be in the format "YYYY-MM-DD"
-* progress value between 0 and 100
-* showOnGraph is used to show/hide the bar on gantt
-* The level is used to draw bar correctly
-* Overdue is used to represents tasks delay
+* **start** and end must be in the format "YYYY-MM-DD"
+* **progress** value between 0 and 100
+* **showOnGraph** is used to show/hide the bar on gantt
+* The **level** is used to draw bar correctly
+* *Overdue** is used to represents tasks delay
 
 
 You can also pass various options to the Gantt constructor:
