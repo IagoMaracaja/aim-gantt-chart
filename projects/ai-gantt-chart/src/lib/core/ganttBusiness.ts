@@ -75,11 +75,10 @@ export class GanttBusiness {
     let beforeDays;
     let afterDays;
     const diffBetweenDays = diffBetweenDates(gantt.end, gantt.start);
-
     switch (options.viewMode) {
       case ViewMode.Day:
         beforeDays = diffBetweenDays <= 30 ? -5 : -1;
-        afterDays = diffBetweenDays <= 15 ? 40 : 10;
+        afterDays = diffBetweenDays <= 15 ? 45 : 30;
         break;
       case ViewMode.Week:
         beforeDays = diffBetweenDays <= 30 ? -15 : -7;
