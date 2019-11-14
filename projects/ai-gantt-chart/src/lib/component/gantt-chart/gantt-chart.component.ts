@@ -40,20 +40,31 @@ export class GanttChartComponent implements OnInit {
 
       this.changeViewMode(this.options.viewMode);
     } else {
-      const element = document.querySelector(this.wrapper);
+      this.showTasksEmpty();
+    }
+  }
+
+  showTasksEmpty() {
+    const element = document.querySelector(this.wrapper);
+    if (!this.svg) {
       this.svg = createSVG('svg', {
         append_to: element,
         width: element.clientWidth,
         height: 100,
         class: 'gantt'
       });
-      this.draw.drawEmptyTaskMessage('There is no task to show', this.svg);
     }
+    this.draw.drawEmptyTaskMessage('There is no task to show', this.svg);
   }
 
   updateTasks(tasks) {
-    this.setupTasks(tasks);
-    this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt, this);
+    if (tasks.length > 0) {
+      this.setupTasks(tasks);
+      this.ganttBusiness.render(this.svg, this.options, this.chartOptions, this.gantt, this);
+    } else {
+      this.showTasksEmpty();
+    }
+
   }
 
   setupWrapper(element) {
