@@ -91,7 +91,7 @@ export class AppComponent {
               ,
               {
                 start: '2019-08-11',
-                end: '2019-08-15',
+                end: '2020-03-15',
                 name: 'Another Task Lv 4',
                 id: 'TaskModel 8',
                 progress: 100,
