@@ -78,15 +78,15 @@ export class GanttBusiness {
     switch (options.viewMode) {
       case ViewMode.Day:
         beforeDays = diffBetweenDays <= 30 ? -5 : -1;
-        afterDays = diffBetweenDays <= 15 ? 45 : 10;
+        afterDays = diffBetweenDays <= 15 ? 3 : 3;
         break;
       case ViewMode.Week:
         beforeDays = diffBetweenDays <= 30 ? -15 : -7;
-        afterDays = diffBetweenDays <= 30 ? 180 : 90;
+        afterDays = diffBetweenDays <= 30 ? 10 : 3;
         break;
       case ViewMode.Month:
-        beforeDays = diffBetweenDays <= 30 ? -100 : -30;
-        afterDays = diffBetweenDays <= 30 ? 830 : 800;
+        beforeDays = diffBetweenDays <= 30 ? -10 : -3;
+        afterDays = diffBetweenDays <= 30 ? 10 : 3;
         break;
     }
     gantt.start = addDaysToDate(gantt.start, beforeDays);

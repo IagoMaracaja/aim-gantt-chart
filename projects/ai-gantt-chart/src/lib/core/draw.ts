@@ -126,7 +126,9 @@ export class Draw {
       append_to: chartOptions.layers.grid
     });
 
-    for (const date of getDatesToDraw(options, chartOptions)) {
+    const datesToDraw = getDatesToDraw(options, chartOptions);
+    datesToDraw.forEach((date, index) => {
+      /*for (const date of datesToDraw) {*/
       createSVG('text', {
         x: date.lowerX,
         y: date.lowerY,
@@ -137,7 +139,8 @@ export class Draw {
 
       switch (options.viewMode) {
         case ViewMode.Day:
-          if (date.lowerText === '02' || date.lowerText === '29') {
+          /*if (date.lowerText === '02' || date.lowerText === '29') {*/
+          if (index === 0 || date.lowerText === '02') {
             Draw.createUpperDate(date, calendarLayer);
           }
           break;
@@ -148,12 +151,13 @@ export class Draw {
           }
           break;
         case ViewMode.Month:
-          if (date.lowerText === 'DEC' || date.lowerText === 'JAN') {
+          /*if (date.lowerText === 'DEC' || date.lowerText === 'JAN') {*/
+          if (index === 0 || date.lowerText === 'DEC') {
             Draw.createUpperDate(date, calendarLayer);
           }
           break;
       }
-    }
+    });
   }
 
   drawBars(chartOptions: ChartOptions, options: GanttOptions, gantt: Gantt, svg: SVGElement) {

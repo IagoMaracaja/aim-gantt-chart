@@ -38,7 +38,7 @@ export class AppComponent {
             taskList: [
               {
                 start: '2019-08-11',
-                end: '2019-08-15',
+                end: '2019-09-01',
                 name: 'Refreshed Tasks Lv 2',
                 id: 'TaskModel 2',
                 progress: 63,
@@ -91,7 +91,7 @@ export class AppComponent {
               ,
               {
                 start: '2019-08-11',
-                end: '2020-03-15',
+                end: '2019-08-15',
                 name: 'Another Task Lv 4',
                 id: 'TaskModel 8',
                 progress: 100,
