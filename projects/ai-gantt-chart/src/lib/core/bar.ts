@@ -112,6 +112,7 @@ export class Bar {
     this.drawBar();
     this.drawProgressBar();
     this.drawLabel();
+    // this.drawTooltip();
     // this.draw_resize_handles();
   }
 
@@ -134,6 +135,42 @@ export class Bar {
       this.bar.classList.add('bar-invalid');
     }
   }
+
+  private drawTooltip() {
+    const margin = 10;
+    const tooltipHeight = this.taskBar.height / 2;
+    const tooltipWidth = 200;
+    const tooltipX = this.taskBar.x + this.taskBar.width + margin;
+    const tooltipY = this.taskBar.y + (tooltipHeight / 2);
+    const cornerRadiusTooltip = 4;
+
+    const barClass = 'bar ' + this.getTaskLevelColor();
+    createSVG('rect', {
+      x: tooltipX,
+      y: tooltipY,
+      width: tooltipWidth,
+      height: tooltipHeight,
+      rx: cornerRadiusTooltip,
+      ry: cornerRadiusTooltip,
+      class: barClass,
+      append_to: this.barGroup
+    });
+
+    const pointerX = this.taskBar.x + this.taskBar.width;
+    const pointerY = tooltipY + (tooltipHeight / 2);
+
+    const pointerPoints =
+      pointerX + ' ' + pointerY + ', '
+      + (pointerX + 10) + ' ' + (pointerY - 10) + ','
+      + (pointerX + 10) + ' ' + (pointerY + 10);
+
+    createSVG('polygon', {
+      points: pointerPoints,
+      style: 'fill:red',
+      append_to: this.barGroup
+    });
+  }
+
 
   drawProgressBar() {
     if (this.taskBar.invalid) {
@@ -245,19 +282,12 @@ export class Bar {
 
   showTooltipToBigBar(overdue) {
     on(this.group, 'mouseover ' + this.options.popupTrigger, e => {
-      if (this.taskBar.actionCompleted) {
-        // just finished a move action, wait for a few seconds
-        return;
-      }
-
       if (e.type === 'click') {
         this.triggerEvent('click', [this.taskBar.task]);
       }
 
       this.unselectAll();
       this.addClass(this.group, 'active');
-
-      // this.group.classList.toggle('active');
 
       this.addStyleForPopup();
       let popupTitle = '';
@@ -306,6 +336,7 @@ export class Bar {
     }
     this.popup.show(options);
   }
+
 
   unselectAll() {
     const items = Array.prototype.slice.call(this.svg.querySelectorAll('.bar-wrapper'));

@@ -108,10 +108,13 @@ export class GanttChartComponent implements OnInit {
     this.wrapperElement.appendChild(this.container);
     this.container.appendChild(parentElement);
 
+    this.gantt.container = this.container;
+
     // popup wrapper
     this.options.popupWrapper = document.createElement('div');
     this.options.popupWrapper.classList.add('popup-wrapper-color');
     this.container.appendChild(this.options.popupWrapper);
+
 
   }
 

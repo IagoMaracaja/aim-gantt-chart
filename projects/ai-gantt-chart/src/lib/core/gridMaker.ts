@@ -32,11 +32,13 @@ export class GridMaker {
   makeGridBackground() {
     const gridWidth =
       this.chartOptions.calendar.length * this.options.columnWidth + this.chartOptions.startPosition;
+    const taskLength = this.options.projectOverview ?
+      this.chartOptions.tasks.length + 1 : this.chartOptions.tasks.length;
     const gridHeight =
       this.options.headerHeight +
       this.options.padding +
       (this.options.barHeight + this.options.padding) *
-      this.chartOptions.tasks.length;
+      taskLength;
 
     createSVG('rect', {
       x: 0,
