@@ -24,7 +24,7 @@ export class AppComponent {
         progress: 55,
         level: 0,
         overdue: true,
-        showOnGraph: true,
+        showOnGraph: false,
         taskList: [
           {
             start: '2019-08-11',
@@ -32,7 +32,7 @@ export class AppComponent {
             name: 'Refreshed Tasks Lv 1',
             id: 'TaskModel 1',
             progress: 13,
-            showOnGraph: true,
+            showOnGraph: false,
             level: 1,
             overdue: true,
             taskList: [
@@ -52,7 +52,7 @@ export class AppComponent {
                 name: 'Refreshed Tasks Lv 3',
                 id: 'TaskModel 3',
                 progress: 37,
-                showOnGraph: true,
+                showOnGraph: false,
                 level: 3,
                 overdue: true
               }

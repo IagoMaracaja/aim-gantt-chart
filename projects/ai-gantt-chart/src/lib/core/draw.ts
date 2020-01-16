@@ -57,63 +57,54 @@ export class Draw {
       for (const tsk of project.taskList) {
         const taskLength = this.getTaskLengthToShow(tsk.taskList);
         headerHeight =
-          (options.barHeight + options.padding * 2) *
-          (taskLength === 0 ? 1 : taskLength);
-        const taskLevelOne = Draw.getLevelOneTask(tsk.taskList);
-        const taskGroup = createSVG('g', {
-          x: 0,
-          y,
-          width: headerWidth,
-          height: headerHeight,
-          class: 'task-header-group',
-          append_to: chartOptions.layers.bar
-        });
-        createSVG('rect', {
-          x: 0,
-          y,
-          width: headerWidth,
-          height: headerHeight,
-          class: 'task-header',
-          append_to: taskGroup
-        });
-        const taskNameUpper = taskLevelOne.name;
-        const labelPosX = headerWidth / 2;
-        const labelPosY = totalHeight + headerHeight / 2;
-        createSVG('text', {
-          x: labelPosX,
-          y: labelPosY,
-          innerHTML: taskNameUpper,
-          class: 'task-name',
-          append_to: taskGroup
-        });
-        if (taskLevelOne.overdue) {
-          const overdue = '(overdue)';
-          const overdueY = labelPosY + 15;
-          createSVG('text', {
-            x: labelPosX,
-            y: overdueY,
-            innerHTML: overdue,
-            class: 'overdue-label',
+          (options.barHeight + options.padding * 2) * taskLength;
+        if(headerHeight > 0) {
+          const taskLevelOne = Draw.getLevelOneTask(tsk.taskList);
+          const taskGroup = createSVG('g', {
+            x: 0,
+            y,
+            width: headerWidth,
+            height: headerHeight,
+            class: 'task-header-group',
+            append_to: chartOptions.layers.bar
+          });
+          createSVG('rect', {
+            x: 0,
+            y,
+            width: headerWidth,
+            height: headerHeight,
+            class: 'task-header',
             append_to: taskGroup
           });
+          const taskNameUpper = taskLevelOne.name;
+          const labelPosX = headerWidth / 2;
+          const labelPosY = totalHeight + headerHeight / 2;
+          createSVG('text', {
+            x: labelPosX,
+            y: labelPosY,
+            innerHTML: taskNameUpper,
+            class: 'task-name',
+            append_to: taskGroup
+          });
+          if (taskLevelOne.overdue) {
+            const overdue = '(overdue)';
+            const overdueY = labelPosY + 15;
+            createSVG('text', {
+              x: labelPosX,
+              y: overdueY,
+              innerHTML: overdue,
+              class: 'overdue-label',
+              append_to: taskGroup
+            });
+          }
+          totalHeight += headerHeight;
+          y = y + headerHeight;
+          newSVGHeight += headerHeight;
         }
-        totalHeight += headerHeight;
-        y = y + headerHeight;
-        newSVGHeight += headerHeight;
       }
     }
 
     svg.setAttribute('height', String(newSVGHeight));
-  }
-
-  private static createUpperDate(date, calendarLayer) {
-    return createSVG('text', {
-      x: date.upperX,
-      y: date.upperY,
-      innerHTML: date.upperText,
-      class: 'upper-text',
-      append_to: calendarLayer
-    });
   }
 
   static getTaskLengthToShow(taskList) {
@@ -124,6 +115,16 @@ export class Draw {
       }
     }
     return length;
+  }
+
+  private static createUpperDate(date, calendarLayer) {
+    return createSVG('text', {
+      x: date.upperX,
+      y: date.upperY,
+      innerHTML: date.upperText,
+      class: 'upper-text',
+      append_to: calendarLayer
+    });
   }
 
   drawDates(chartOptions: ChartOptions, options: GanttOptions) {
