@@ -14,7 +14,6 @@ import {GanttChartComponent} from '../component/gantt-chart/gantt-chart.componen
   providedIn: 'root',
 })
 export class Draw {
-
   static getLevelOneTask(taskList) {
     let levelOne;
     for (const tsk of taskList) {
@@ -35,9 +34,10 @@ export class Draw {
       for (const project of chartOptions.allTasks) {
         newSVGHeight += (options.barHeight + options.padding * 2);
         for (const tsk of project.taskList) {
+          const taskLength = Draw.getTaskLengthToShow(tsk.taskList);
           headerHeight =
             (options.barHeight + options.padding * 2) *
-            tsk.taskList.length;
+            taskLength;
           newSVGHeight += headerHeight;
         }
       }
@@ -55,9 +55,10 @@ export class Draw {
     let headerHeight = 0;
     for (const project of chartOptions.allTasks) {
       for (const tsk of project.taskList) {
+        const taskLength = this.getTaskLengthToShow(tsk.taskList);
         headerHeight =
           (options.barHeight + options.padding * 2) *
-          tsk.taskList.length;
+          taskLength;
         const taskLevelOne = Draw.getLevelOneTask(tsk.taskList);
         const taskGroup = createSVG('g', {
           x: 0,
@@ -75,13 +76,13 @@ export class Draw {
           class: 'task-header',
           append_to: taskGroup
         });
-        const nameTest = taskLevelOne.name;
+        const taskNameUpper = taskLevelOne.name;
         const labelPosX = headerWidth / 2;
         const labelPosY = totalHeight + headerHeight / 2;
         createSVG('text', {
           x: labelPosX,
           y: labelPosY,
-          innerHTML: nameTest,
+          innerHTML: taskNameUpper,
           class: 'task-name',
           append_to: taskGroup
         });
@@ -105,7 +106,6 @@ export class Draw {
     svg.setAttribute('height', String(newSVGHeight));
   }
 
-
   private static createUpperDate(date, calendarLayer) {
     return createSVG('text', {
       x: date.upperX,
@@ -116,6 +116,15 @@ export class Draw {
     });
   }
 
+  static getTaskLengthToShow(taskList) {
+    let length = 0;
+    for (const task of taskList) {
+      if (task.showOnGraph) {
+        length++;
+      }
+    }
+    return length;
+  }
 
   drawDates(chartOptions: ChartOptions, options: GanttOptions) {
     const monthPlottedNames = [];
@@ -166,6 +175,7 @@ export class Draw {
     }
     chartOptions.bars = chartOptions.tasks.map(task => {
       if (task.showOnGraph) {
+        console.log('Check this line to change the index properly');
         const bar = new Bar(gantt, chartOptions, options, task, svg);
         bar.createBars();
         if (bar.taskBar.x < 0) {
@@ -176,8 +186,7 @@ export class Draw {
         chartOptions.layers.bar.appendChild(bar.group);
         return bar;
       }
-    });
-
+    }).filter(element => element !== undefined);
     Draw.changeSvgHeight(options, chartOptions, svg);
   }
 

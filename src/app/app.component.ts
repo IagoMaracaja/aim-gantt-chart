@@ -32,7 +32,7 @@ export class AppComponent {
             name: 'Refreshed Tasks Lv 1',
             id: 'TaskModel 1',
             progress: 13,
-            showOnGraph: true,
+            showOnGraph: false,
             level: 1,
             overdue: true,
             taskList: [
