@@ -175,7 +175,6 @@ export class Draw {
     }
     chartOptions.bars = chartOptions.tasks.map(task => {
       if (task.showOnGraph) {
-        console.log('Check this line to change the index properly');
         const bar = new Bar(gantt, chartOptions, options, task, svg);
         bar.createBars();
         if (bar.taskBar.x < 0) {

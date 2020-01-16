@@ -86,11 +86,13 @@ export class GridMaker {
     const rowHeight = this.options.barHeight + this.options.padding * 2;
     const lineRowWidth = rowWidth + this.chartOptions.startPosition;
 
+    let allActiveTaskQty = 0;
     let rowY = this.options.headerHeight;
     for (const project of this.chartOptions.allTasks) {
       for (const tsk of project.taskList) {
         let pos = 0;
         let lineClass = 'row-line';
+        allActiveTaskQty = this.getNumberOfTasksActive(tsk.taskList);
         for (const task of tsk.taskList) {
           createSVG('rect', {
             x: this.chartOptions.startPosition,
@@ -100,9 +102,8 @@ export class GridMaker {
             class: 'grid-row',
             append_to: rowsLayer
           });
-
-          if (pos === tsk.taskList.length - 1 && !this.options.projectOverview) {
-            lineClass = 'last-row-line';
+          if (pos === allActiveTaskQty - 1 && !this.options.projectOverview) {
+            // lineClass = 'last-row-line';
           }
 
           createSVG('line', {
@@ -118,6 +119,16 @@ export class GridMaker {
         }
       }
     }
+  }
+
+  getNumberOfTasksActive(taskList) {
+    let taskQty = 0;
+    for (const task of taskList) {
+      if (task.showOnGraph) {
+        taskQty++;
+      }
+    }
+    return taskQty;
   }
 
   makeGridTicks() {

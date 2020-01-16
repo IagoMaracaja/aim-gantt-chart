@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {createSVG} from '../../utils/svg-utils';
 import {Language, Options, Scale, ViewMode} from '../../utils/enums';
-import {addDate, diffBetweenDates, getDateValues, getToday, parseDate} from '../../utils/date-utils';
+import {addDate, diffBetweenDates, getToday, parseDate} from '../../utils/date-utils';
 import {generateId} from '../../utils/commom-code';
 import {GanttOptions} from '../../models/ganttOptions.models';
 import {GanttBusiness} from '../../core/ganttBusiness';
@@ -163,6 +163,7 @@ export class GanttChartComponent implements OnInit {
     this.chartOptions.allTasks = tasks;
     const allTasks = this.getAllTasks(tasks);
     // prepare tasks
+    let taskIndex = 0;
     this.chartOptions.tasks = allTasks.map((task, i) => {
       // convert to Date objects
       task.start = parseDate(task.start);
@@ -173,7 +174,10 @@ export class GanttChartComponent implements OnInit {
       }
 
       // cache index
-      task.index = i;
+      if (task.showOnGraph) {
+        task.index = taskIndex;
+        taskIndex ++;
+      }
 
       // invalid dates
       if (!task.start && !task.end) {
