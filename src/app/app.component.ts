@@ -32,7 +32,7 @@ export class AppComponent {
             name: 'Refreshed Tasks Lv 1',
             id: 'TaskModel 1',
             progress: 13,
-            showOnGraph: false,
+            showOnGraph: true,
             level: 1,
             overdue: true,
             taskList: [
@@ -52,7 +52,7 @@ export class AppComponent {
                 name: 'Refreshed Tasks Lv 3',
                 id: 'TaskModel 3',
                 progress: 37,
-                showOnGraph: false,
+                showOnGraph: true,
                 level: 3,
                 overdue: true
               }
@@ -84,7 +84,7 @@ export class AppComponent {
                 name: 'Another Task Lv 3',
                 id: 'TaskModel 7',
                 progress: 33,
-                showOnGraph: false,
+                showOnGraph: true,
                 level: 3,
                 overdue: false
               }

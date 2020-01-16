@@ -58,7 +58,7 @@ export class Draw {
         const taskLength = this.getTaskLengthToShow(tsk.taskList);
         headerHeight =
           (options.barHeight + options.padding * 2) *
-          taskLength;
+          (taskLength === 0 ? 1 : taskLength);
         const taskLevelOne = Draw.getLevelOneTask(tsk.taskList);
         const taskGroup = createSVG('g', {
           x: 0,

@@ -32,8 +32,9 @@ export class GridMaker {
   makeGridBackground() {
     const gridWidth =
       this.chartOptions.calendar.length * this.options.columnWidth + this.chartOptions.startPosition;
+    const taskActiveLength = this.getNumberOfAllTasksActive(this.chartOptions);
     const taskLength = this.options.projectOverview ?
-      this.chartOptions.tasks.length + 1 : this.chartOptions.tasks.length;
+      taskActiveLength + 1 : taskActiveLength;
     const gridHeight =
       this.options.headerHeight +
       this.options.padding +
@@ -94,36 +95,38 @@ export class GridMaker {
         let lineClass = 'row-line';
         allActiveTaskQty = this.getNumberOfTasksActive(tsk.taskList);
         for (const task of tsk.taskList) {
-          createSVG('rect', {
-            x: this.chartOptions.startPosition,
-            y: rowY,
-            width: rowWidth,
-            height: rowHeight,
-            class: 'grid-row',
-            append_to: rowsLayer
-          });
+
+          this.createGridRow(rowY, rowWidth, rowHeight, rowsLayer);
+
           if (pos === allActiveTaskQty - 1 && !this.options.projectOverview) {
             // lineClass = 'last-row-line';
           }
 
-          createSVG('line', {
-            x1: this.chartOptions.startPosition,
-            y1: rowY + rowHeight,
-            x2: lineRowWidth,
-            y2: rowY + rowHeight,
-            class: lineClass,
-            append_to: linesLayer
-          });
+          this.createLine(rowY, rowHeight, lineRowWidth, lineClass, linesLayer);
           pos++;
           rowY += rowHeight;
         }
       }
+    }
+    if (this.options.projectOverview) {
+      this.createGridRow(rowY, rowWidth, rowHeight, rowsLayer);
+      this.createLine(rowY, rowHeight, lineRowWidth, 'row-line', linesLayer);
     }
   }
 
   getNumberOfTasksActive(taskList) {
     let taskQty = 0;
     for (const task of taskList) {
+      if (task.showOnGraph) {
+        taskQty++;
+      }
+    }
+    return taskQty;
+  }
+
+  getNumberOfAllTasksActive(chartOptions: ChartOptions) {
+    let taskQty = 0;
+    for (const task of chartOptions.tasks) {
       if (task.showOnGraph) {
         taskQty++;
       }
@@ -243,6 +246,28 @@ export class GridMaker {
       d: `M ${x} ${y} v ${height}`,
       class: 'month-divisor',
       append_to: this.chartOptions.layers.divisor
+    });
+  }
+
+  private createLine(rowY, rowHeight, lineRowWidth, lineClass: string, linesLayer) {
+    createSVG('line', {
+      x1: this.chartOptions.startPosition,
+      y1: rowY + rowHeight,
+      x2: lineRowWidth,
+      y2: rowY + rowHeight,
+      class: lineClass,
+      append_to: linesLayer
+    });
+  }
+
+  private createGridRow(rowY, rowWidth, rowHeight, rowsLayer) {
+    createSVG('rect', {
+      x: this.chartOptions.startPosition,
+      y: rowY,
+      width: rowWidth,
+      height: rowHeight,
+      class: 'grid-row',
+      append_to: rowsLayer
     });
   }
 }
